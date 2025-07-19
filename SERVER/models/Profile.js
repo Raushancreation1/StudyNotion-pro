@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+   // Define the Profile schema
 const profileSchema = new mongoose.Schema({
    
 
@@ -20,5 +20,5 @@ const profileSchema = new mongoose.Schema({
 
     
 });
-
+   // Export the Profile model
 module.exports = mongoose.model("Profile", profileSchema);

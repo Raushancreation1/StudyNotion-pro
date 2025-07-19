@@ -1,3 +1,4 @@
+// Importing required modules
 const jwt = require("jsonwebtoken");
 require ("dotenv").config();
 const User = require("../models/User");
@@ -19,16 +20,19 @@ exports.auth = async (req, res, next) => {
 
         //verify the tocken
         try{
-            const decode = jwt.verify(tocken, process.env.JWT_SECRET);
+            const decode = await jwt.verify(tocken, process.env.JWT_SECRET);
             console.log(decode);
             req.user = decode;
         }
-        catch(err) {
+        catch(error) {
             return res.status(401).jason({
                 success:false,
                 message:'tocken is invalid',
             });
         }
+
+		// If JWT is valid, move on to the next middleware or request handler
+		next();
     }
     catch(error){
         return res.status(401).jason({
@@ -43,7 +47,8 @@ exports.auth = async (req, res, next) => {
 //isStudent
 exports.isStudent = async (req, res, next) => {
     try{
-        if(req.user.accountType !== "Student") {
+        const userDetails = await User.findOne({ email: req.user.email });
+        if(userDetails.accountType !== "Student") {
             return res.status(401).jason({
                 success:false,
                 message:'This is a protected route for Students only',
@@ -63,7 +68,8 @@ exports.isStudent = async (req, res, next) => {
 //isInstructor
 exports.isInstructor = async (req, res, next) => {
     try{
-        if(req.user.accountType !== "Instructor") {
+        const userDetails = await User.findOne({ email: req.user.email });
+        if(userDetails.accountType !== "Instructor") {
             return res.status(401).jason({
                 success:false,
                 message:'This is a protected route for Instructor only',
@@ -71,7 +77,7 @@ exports.isInstructor = async (req, res, next) => {
         }
         next();
     }
-    catch{
+    catch(error){
         return res.status(500).jason ({
             success:false,
             message:'User role cannot be verified, please try again'
@@ -84,7 +90,8 @@ exports.isInstructor = async (req, res, next) => {
 
 exports.isAdmin = async (req, res, next) => {
     try{
-        if(req.user.accountType !== "Admin") {
+        const userDetails = await User.findOne({ email: req.user.email });
+        if(userDetails.accountType !== "Admin") {
             return res.status(401).jason({
                 success:false,
                 message:'This is a protected route for Admin only',

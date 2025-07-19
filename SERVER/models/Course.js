@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
-const courseSchema = new mongoose.Schema({
 
+// Define the Courses schema
+const courseSchema = new mongoose.Schema({
     courseName: {
         type: String,
         required: true,
@@ -42,13 +43,29 @@ const courseSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Tag",
     },
+    category: {
+		type: mongoose.Schema.Types.ObjectId,
+		// required: true,
+		ref: "Category",
+	},
     studentsEnrolled: [
         {
             type: mongoose.Schema.Types.ObjectId,
             required:true,
             ref: "User",
         }
-    ]
+    ],
+    instructions: {
+		type: [String],
+	},
+	status: {
+		type: String,
+		enum: ["Draft", "Published"],
+	},
+	createdAt: {
+		type:Date,
+		default:Date.now
+	},
     
 });
 
