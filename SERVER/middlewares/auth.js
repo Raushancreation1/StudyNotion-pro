@@ -35,7 +35,8 @@ exports.auth = async (req, res, next) => {
 		next();
     }
     catch(error){
-        return res.status(401).jason({
+        return res.status(500).jason({
+            console: error,
             success:false,
             message:'Something went wrong while validating the tocken',
         });

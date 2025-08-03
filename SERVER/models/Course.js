@@ -40,8 +40,7 @@ const courseSchema = new mongoose.Schema({
         type: String,
     },
     tag: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Tag",
+        type: [String],
     },
     category: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -69,5 +68,5 @@ const courseSchema = new mongoose.Schema({
     
 });
 
-model.exports = mongoose.model("Course", courseSchema);
+module.exports = mongoose.model("Course", courseSchema);
 
