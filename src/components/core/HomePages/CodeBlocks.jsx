@@ -1,22 +1,23 @@
 import React from 'react'
 import CTAButton from './Button';
 import { FaArrowRight } from 'react-icons/fa';
-import HighlightText from './HighlightText';
 import { TypeAnimation } from 'react-type-animation';
 
 const CodeBlocks = ({
     position, heading, subheading, ctabtn1, ctabtn2, codeblocks, backgroundGradient, codeColor
 }) => {
   return (
-    <div className={`flex ${position} my-20 justify-between gap-10`}>
+    <div className={`flex ${position} my-20 justify-between flex-col lh:gap-10 gap-10`}>
 
         {/*section 1*/}
-        <div className='w-[50%] flex flex-col gap-8'>
+        <div className='w-[100%] lg:w-[50%] flex flex-col gap-8'>
             {heading}
-            <div className='text-richblack-300 font-bold'>
+
+            <div className='text-richblack-300 text-base font-bold w-[85%] mt-3'>
                 {subheading}
             </div>
-
+            
+            {/* Button Group*/}
             <div className='flex gap-7 mt-7'>
                 <CTAButton active={ctabtn1.active} linkto={ctabtn1.linkto}>
                     <div className='flex gap-2 items-center'>
@@ -35,7 +36,7 @@ const CodeBlocks = ({
 
         {/*section 2 */}
 
-        <div className='h-fit flex flex-row text-10[px] w-[100%] py-4 lg:w-[500px]'>
+        <div className='h-fit code-border flex flex-row text-[10px] sm:text-sm leading-[18px] sm:leading-6 relative w-[100%] lg:w-[470px]'>
             {/*WH: -> BG gradient*/}
 
             <div className='text-center flex flex-col w-[10%] text-richblack-400 font-inter font-bold'>
@@ -52,9 +53,10 @@ const CodeBlocks = ({
                 <p1>11</p1>
             </div>
 
-            <div className={`w-[90%] flex flex-col gap-2 font-bold font-mono ${codeColor} pr-2`}>
+                {/*Codes */}
+            <div className={`w-[90%] flex flex-col gap-2 font-bold font-mono ${codeColor} pr-1`}>
                 <TypeAnimation
-                sequence={[codeblocks, 2000, ""]}
+                sequence={[codeblocks, 1000, ""]}
                 repeat={Infinity}
                 cursor={true}
                 
