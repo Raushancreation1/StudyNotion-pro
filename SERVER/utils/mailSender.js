@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const mailSender = async (email, subject, body) => {
+const mailSender = async (email, title, body) => {
     try{
 
         let transporter = nodemailer.createTransport({
@@ -14,7 +14,7 @@ const mailSender = async (email, subject, body) => {
         let info = await transporter.sendMail({
             from: `StudyNotion  || Rc coding - by RaushanCreation`,
             to: `${email}`,
-            subject: `${subject}`,
+            subject: `${title}`,
             html: `${body}`,
         })
         console.log(info);

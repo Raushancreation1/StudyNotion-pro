@@ -20,7 +20,7 @@ exports.signup = async (req, res) => {
       password,
       confirmPassword,
       accountType,
-      //contactNumber,
+      contactNumber,
       otp,
     } = req.body
     // Check if All Details are there or not
@@ -73,7 +73,7 @@ exports.signup = async (req, res) => {
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 6)
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     // Create the user
     let approved = ""
@@ -90,12 +90,12 @@ exports.signup = async (req, res) => {
       firstName,
       lastName,
       email,
-      //contactNumber,
+      contactNumber,
       password: hashedPassword,
       accountType: accountType,
       approved: approved,
       additionalDetails: profileDetails._id,
-      image: 'https://api.dicebear.com/5.x/initials/svg?seed=${firstname}${lastName}', // Default placeholder image
+      image: "https://api.dicebear.com/5.x/initials/svg?seed=${firstname}${lastName}",
     })
 
     return res.status(200).json({
@@ -181,19 +181,27 @@ exports.login = async (req, res) => {
 // Send OTP For Email Verification
 exports.sendotp = async (req, res) => {
   try {
-    const { email } = req.body
+    const { email, checkUserPresent } = req.body
 
     // Check if user is already present
     // Find user with provided email
-    const checkUserPresent = await User.findOne({ email })
+    const existingUser = await User.findOne({ email })
     // to be used in case of signup
 
     // If user found with provided email
-    if (checkUserPresent) {
-      // Return 401 Unauthorized status code with error message
+    // If we are in signup flow (checkUserPresent === true), we should not send OTP to an already registered user
+    if (checkUserPresent === true && existingUser) {
       return res.status(401).json({
         success: false,
         message: `User is Already Registered`,
+      })
+    }
+
+    // If we are in a non-signup flow (e.g. verification/reset) and user must exist, block when user not found
+    if (checkUserPresent === false && !existingUser) {
+      return res.status(401).json({
+        success: false,
+        message: `User is not registered`,
       })
     }
 

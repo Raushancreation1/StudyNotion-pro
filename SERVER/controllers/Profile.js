@@ -121,8 +121,8 @@ exports.updateDisplayPicture = async (req, res) => {
     const image = await uploadImageToCloudinary(
       displayPicture,
       process.env.FOLDER_NAME,
-      1000,
-      1000
+      5000,
+      5000
     )
     console.log(image)
     const updatedProfile = await User.findByIdAndUpdate(

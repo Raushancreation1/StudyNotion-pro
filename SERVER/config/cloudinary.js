@@ -13,4 +13,4 @@ exports.cloudinaryConnect = () => {
   }
 };
 
-exports.cloudinary = cloudinary; 
+//exports.cloudinary = cloudinary; 

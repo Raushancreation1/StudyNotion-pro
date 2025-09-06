@@ -128,6 +128,6 @@ exports.deleteSection = async (req, res) => {
       success: false,
       message: "Internal server error",
       error: error.message,
-    })
+    });
   }
-}
+};
