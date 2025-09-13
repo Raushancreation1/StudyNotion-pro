@@ -15,7 +15,7 @@ const ContactUsForm = () => {
   } = useForm()
 
   const submitContactForm = async (data) => {
-    console.log("Form Data - ", data)
+    // console.log("Form Data - ", data)
     try {
       setLoading(true)
       const res = await apiConnector(
@@ -23,7 +23,7 @@ const ContactUsForm = () => {
         contactusEndpoint.CONTACT_US_API,
         data
       )
-      console.log("Email Res - ", res)
+      // console.log("Email Res - ", res)
       setLoading(false)
     } catch (error) {
       console.log("ERROR MESSAGE - ", error.message)
@@ -48,6 +48,8 @@ const ContactUsForm = () => {
       className="flex flex-col gap-7"
       onSubmit={handleSubmit(submitContactForm)}
     >
+
+            {/* first name &  last name side by side */}
       <div className="flex flex-col gap-5 lg:flex-row">
         <div className="flex flex-col gap-2 lg:w-[48%]">
           <label htmlFor="firstname" className="lable-style">
@@ -58,7 +60,7 @@ const ContactUsForm = () => {
             name="firstname"
             id="firstname"
             placeholder="Enter first name"
-            className="form-style"
+            className="form-style text-black"
             {...register("firstname", { required: true })}
           />
           {errors.firstname && (
@@ -76,12 +78,13 @@ const ContactUsForm = () => {
             name="lastname"
             id="lastname"
             placeholder="Enter last name"
-            className="form-style"
+            className="form-style text-black"
             {...register("lastname")}
           />
         </div>
       </div>
-
+       
+             {/* email */}
       <div className="flex flex-col gap-2">
         <label htmlFor="email" className="lable-style">
           Email Address
@@ -91,7 +94,7 @@ const ContactUsForm = () => {
           name="email"
           id="email"
           placeholder="Enter email address"
-          className="form-style"
+          className="form-style text-black"
           {...register("email", { required: true })}
         />
         {errors.email && (
@@ -100,7 +103,8 @@ const ContactUsForm = () => {
           </span>
         )}
       </div>
-{/* 
+  
+                     {/* phonenumber */}
       <div className="flex flex-col gap-2">
         <label htmlFor="phonenumber" className="lable-style">
           Phone Number
@@ -113,7 +117,7 @@ const ContactUsForm = () => {
               name="firstname"
               id="firstname"
               placeholder="Enter first name"
-              className="form-style"
+              className="form-style text-black"
               {...register("countrycode", { required: true })}
             >
               {CountryCode.map((ele, i) => {
@@ -131,7 +135,7 @@ const ContactUsForm = () => {
               name="phonenumber"
               id="phonenumber"
               placeholder="12345 67890"
-              className="form-style"
+              className="form-style text-black"
               {...register("phoneNo", {
                 required: {
                   value: true,
@@ -148,7 +152,9 @@ const ContactUsForm = () => {
             {errors.phoneNo.message}
           </span>
         )}
-      </div> */}
+      </div>
+
+               {/* message */}
 
       <div className="flex flex-col gap-2">
         <label htmlFor="message" className="lable-style">
@@ -160,7 +166,7 @@ const ContactUsForm = () => {
           cols="30"
           rows="7"
           placeholder="Enter your message here"
-          className="form-style"
+          className="form-style text-black"
           {...register("message", { required: true })}
         />
         {errors.message && (
