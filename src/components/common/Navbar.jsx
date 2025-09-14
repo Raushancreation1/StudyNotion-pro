@@ -36,19 +36,22 @@ function Navbar() {
   const location = useLocation()
 
   const [subLinks, setSubLinks] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    ;(async () => {
-      setLoading(true)
+    const fetchCategories = async () => {
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API)
-        setSubLinks(res.data.data)
+        setSubLinks(res?.data?.data || [])
       } catch (error) {
-        console.log("Could not fetch Categories.", error)
+        console.error("Could not fetch Categories.", error)
+        setSubLinks([])
+      } finally {
+        setLoading(false)
       }
-      setLoading(false)
-    })()
+    }
+    
+    fetchCategories()
   }, [])
 
   // console.log("sub links", subLinks)
@@ -87,23 +90,23 @@ function Navbar() {
                       <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]">
                         <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
                         {loading ? (
-                          <p className="text-center">Loading...</p>
-                        ) : subLinks.length ? (
+                          <p className="text-center p-4">Loading categories...</p>
+                        ) : subLinks?.length > 0 ? (
                           <>
                             {subLinks
-                              ?.filter(
+                              .filter(
                                 (subLink) => subLink?.courses?.length > 0
                               )
-                              ?.map((subLink, i) => (
+                              .map((subLink, i) => (
                                 <Link
-                                  to={`/catalog/${subLink.name
+                                  to={`/catalog/${(subLink?.name || '')
                                     .split(" ")
                                     .join("-")
                                     .toLowerCase()}`}
                                   className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
                                   key={i}
                                 >
-                                  <p>{subLink.name}</p>
+                                  <p>{subLink?.name || 'Unnamed Category'}</p>
                                 </Link>
                               ))}
                           </>

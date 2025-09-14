@@ -1,4 +1,8 @@
-const BASE_URL = process.env.REACT_APP_BASE_URL
+// Debug: Log environment variables
+console.log('Environment Variables:', process.env);
+console.log('REACT_APP_BASE_URL:', process.env.REACT_APP_BASE_URL);
+
+const BASE_URL = (process.env.REACT_APP_BASE_URL || 'http://localhost:5000') + '/api/v1'; // Fallback URL with API version
 
 // AUTH ENDPOINTS
 export const endpoints = {
