@@ -8,10 +8,12 @@ import Signup from "./pages/Signup"
 import OpenRoute from "./components/core/Auth/OpenRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
-import MyProfile from "./pages/MyProfile";
+import MyProfile from "./components/core/Dashboard/MyProfile";
 import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Dashboard from "./pages/Dashboard";
+import PrivateRoute from "./components/core/Auth/PrivateRoute";
 
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/dashboard/my-profile" element={<MyProfile />} />
 
         <Route
           path="/signup"
@@ -77,6 +80,14 @@ function App() {
               <About />
             </OpenRoute>
           } />
+
+          <Route
+            element={
+              <PrivateRoute>
+                <Dashboard/>
+              </PrivateRoute>
+            }/>
+
 
 
       </Routes>
