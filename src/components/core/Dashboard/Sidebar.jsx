@@ -5,16 +5,16 @@ import { useNavigate } from "react-router-dom"
 
 import { sidebarLinks } from "../../../data/dashboard-links"
 import { logout } from "../../../services/operations/authAPI"
-import ConfirmationModal from "../../common/ConfirmationModal";
-import SidebarLink from "./SidebarLinks";
+import ConfirmationModal from "../../common/ConfirmationModal"
+import SidebarLink from "./SidebarLinks"
 
 export default function Sidebar() {
   const { user, loading: profileLoading } = useSelector(
     (state) => state.profile
   )
   const { loading: authLoading } = useSelector((state) => state.auth)
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   // to keep track of confirmation modal
   const [confirmationModal, setConfirmationModal] = useState(null)
 
@@ -37,8 +37,6 @@ export default function Sidebar() {
             )
           })}
         </div>
-
-        
         <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" />
         <div className="flex flex-col">
           <SidebarLink
@@ -50,7 +48,7 @@ export default function Sidebar() {
               setConfirmationModal({
                 text1: "Are you sure?",
                 text2: "You will be logged out of your account.",
-                btn1Text: "Logout", 
+                btn1Text: "Logout",
                 btn2Text: "Cancel",
                 btn1Handler: () => dispatch(logout(navigate)),
                 btn2Handler: () => setConfirmationModal(null),
