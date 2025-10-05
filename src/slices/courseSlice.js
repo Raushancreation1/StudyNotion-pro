@@ -1,20 +1,42 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-  // Add any initial state properties needed for courses
-};
+  step: 1,
+  course: null,
+  editCourse: false,
+  paymentLoading: false,
+}
 
-export const courseSlice = createSlice({
-  name: 'course',
+const courseSlice = createSlice({
+  name: "course",
   initialState,
   reducers: {
-    resetCourseState: (state) => {
-      // Reset the course state to initial state
-      return { ...initialState };
+    setStep: (state, action) => {
+      state.step = action.payload
     },
-    // Add other reducers as needed
+    setCourse: (state, action) => {
+      state.course = action.payload
+    },
+    setEditCourse: (state, action) => {
+      state.editCourse = action.payload
+    },
+    setPaymentLoading: (state, action) => {
+      state.paymentLoading = action.payload
+    },
+    resetCourseState: (state) => {
+      state.step = 1
+      state.course = null
+      state.editCourse = false
+    },
   },
-});
+})
 
-export const { resetCourseState } = courseSlice.actions;
-export default courseSlice.reducer;
+export const {
+  setStep,
+  setCourse,
+  setEditCourse,
+  setPaymentLoading,
+  resetCourseState,
+} = courseSlice.actions
+
+export default courseSlice.reducer

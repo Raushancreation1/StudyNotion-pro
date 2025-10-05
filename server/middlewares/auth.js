@@ -1,9 +1,9 @@
 // Importing required modules
 const jwt = require("jsonwebtoken");
- require("dotenv").config();
+const dotenv = require("dotenv");
 const User = require("../models/User");
 // Configuring dotenv to load environment variables from .env file
-//dotenv.config();
+dotenv.config();
 
 // This function is used as middleware to authenticate user requests
 exports.auth = async (req, res, next) => {
@@ -21,16 +21,15 @@ exports.auth = async (req, res, next) => {
 
 		try {
 			// Verifying the JWT using the secret key stored in environment variables
-			const decode = jwt.verify(token, process.env.JWT_SECRET);
+			const decode = await jwt.verify(token, process.env.JWT_SECRET);
 			console.log(decode);
 			// Storing the decoded JWT payload in the request object for further use
 			req.user = decode;
 		} catch (error) {
 			// If JWT verification fails, return 401 Unauthorized response
-			return res.status(401).json({
-				 success: false,
-				  message: "token is invalid"
-				 });
+			return res
+				.status(401)
+				.json({ success: false, message: "token is invalid" });
 		}
 
 		// If JWT is valid, move on to the next middleware or request handler
@@ -43,7 +42,6 @@ exports.auth = async (req, res, next) => {
 		});
 	}
 };
-
 exports.isStudent = async (req, res, next) => {
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });

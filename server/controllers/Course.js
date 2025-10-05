@@ -24,29 +24,38 @@ exports.createCourse = async (req, res) => {
       instructions: _instructions,
     } = req.body
     // Get thumbnail image from request files
-    const thumbnail = req.files.thumbnailImage
+    // Get thumbnail image from request files (guard if files are absent)
+    let thumbnail = null
+    if (req.files && req.files.thumbnailImage) {
+      thumbnail = req.files.thumbnailImage
+    }
 
     // Convert the tag and instructions from stringified Array to Array
-    const tag = JSON.parse(_tag)
-    const instructions = JSON.parse(_instructions)
+    // Safely parse tag and instructions
+    let tag = [];
+    try { if (typeof _tag === "string") tag = JSON.parse(_tag); } catch (e) { tag = []; }
+    let instructions = [];
+    try { if (typeof _instructions === "string") instructions = JSON.parse(_instructions); } catch (e) { instructions = []; }
 
     console.log("tag", tag)
     console.log("instructions", instructions)
 
-    // Check if any of the required fields are missing
-    if (
-      !courseName ||
-      !courseDescription ||
-      !whatYouWillLearn ||
-      !price ||
-      !tag.length ||
-      !thumbnail ||
-      !category ||
-      !instructions.length
-    ) {
+    // Check if any of the required fields are missing and report which ones
+    const missing = []
+    if (!courseName) missing.push("courseName")
+    if (!courseDescription) missing.push("courseDescription")
+    if (!whatYouWillLearn) missing.push("whatYouWillLearn")
+    if (!price) missing.push("price")
+    if (!Array.isArray(tag) || tag.length === 0) missing.push("tag")
+    if (!thumbnail) missing.push("thumbnailImage")
+    if (!category) missing.push("category")
+    if (!Array.isArray(instructions) || instructions.length === 0) missing.push("instructions")
+
+    if (missing.length) {
       return res.status(400).json({
         success: false,
-        message: "All Fields are Mandatory",
+        message: "Missing required fields",
+        missing,
       })
     }
     if (!status || status === undefined) {
@@ -145,7 +154,11 @@ exports.editCourse = async (req, res) => {
     // If Thumbnail Image is found, update it
     if (req.files) {
       console.log("thumbnail update")
-      const thumbnail = req.files.thumbnailImage
+    // Get thumbnail image from request files (guard if files are absent)
+    let thumbnail = null
+    if (req.files && req.files.thumbnailImage) {
+      thumbnail = req.files.thumbnailImage
+    }
       const thumbnailImage = await uploadImageToCloudinary(
         thumbnail,
         process.env.FOLDER_NAME

@@ -95,7 +95,7 @@ exports.signup = async (req, res) => {
       accountType: accountType,
       approved: approved,
       additionalDetails: profileDetails._id,
-      image: "https://api.dicebear.com/5.x/initials/svg?seed=${firstname}${lastName}",
+      image: "https://api.dicebear.com/5.x/initials/svg?seed=${}${}",
     })
 
     return res.status(200).json({
@@ -123,7 +123,7 @@ exports.login = async (req, res) => {
       // Return 400 Bad Request status code with error message
       return res.status(400).json({
         success: false,
-        message: `Please Fill up All the Required Fields`,
+        message: 'Please Fill up All the Required Fields',
       })
     }
 

@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 
 import { resetPassword } from "../services/operations/authAPI"
 
-const UpdatePassword = () => {
+function UpdatePassword() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
@@ -103,13 +103,13 @@ const UpdatePassword = () => {
               Reset Password
             </button>
           </form>
-              <div className="mt-6 flex items-center justify-between">
-                <Link to="/login">
-                  <p className="flex items-center gap-x-2 text-richblack-5">
-                    <BiArrowBack /> Back To Login
-                  </p>
-                </Link>
-              </div>
+          <div className="mt-6 flex items-center justify-between">
+            <Link to="/login">
+              <p className="flex items-center gap-x-2 text-richblack-5">
+                <BiArrowBack /> Back To Login
+              </p>
+            </Link>
+          </div>
         </div>
       )}
     </div>

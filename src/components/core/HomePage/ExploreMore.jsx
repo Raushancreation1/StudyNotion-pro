@@ -14,7 +14,9 @@ const tabsName = [
 const ExploreMore = () => {
   const [currentTab, setCurrentTab] = useState(tabsName[0]);
   const [courses, setCourses] = useState(HomePageExplore[0].courses);
-  const [currentCard, setCurrentCard] = useState(HomePageExplore[0].courses[0].heading);
+  const [currentCard, setCurrentCard] = useState(
+    HomePageExplore[0].courses[0].heading
+  );
 
   const setMyCards = (value) => {
     setCurrentTab(value);

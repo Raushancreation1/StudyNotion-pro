@@ -35,19 +35,7 @@ export function sendOtp(email, navigate) {
       navigate("/verify-email")
     } catch (error) {
       console.log("SENDOTP API ERROR............", error)
-      const serverMessage = error?.response?.data?.message
-      if (serverMessage) {
-        toast.error(serverMessage)
-      } else {
-        toast.error("Could Not Send OTP")
-      }
-      const status = error?.response?.status
-      if (status === 401) {
-        // If user already registered, send them to login
-        if (serverMessage && serverMessage.toLowerCase().includes("already registered")) {
-          navigate("/login")
-        }
-      }
+      toast.error("Could Not Send OTP")
     }
     dispatch(setLoading(false))
     toast.dismiss(toastId)
@@ -117,11 +105,9 @@ export function login(email, password, navigate) {
         ? response.data.user.image
         : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`
       dispatch(setUser({ ...response.data.user, image: userImage }))
-      console.log("After setUser", response.data.user)
-      
+
       localStorage.setItem("token", JSON.stringify(response.data.token))
       localStorage.setItem("user", JSON.stringify(response.data.user))
-      
       navigate("/dashboard/my-profile")
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
@@ -137,7 +123,9 @@ export function getPasswordResetToken(email, setEmailSent) {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
     try {
-      const response = await apiConnector("POST", RESETPASSTOKEN_API, {email,})
+      const response = await apiConnector("POST", RESETPASSTOKEN_API, {
+        email,
+      })
 
       console.log("RESETPASSTOKEN RESPONSE............", response)
 

@@ -37,6 +37,8 @@ export default function Sidebar() {
             )
           })}
         </div>
+
+        
         <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" />
         <div className="flex flex-col">
           <SidebarLink

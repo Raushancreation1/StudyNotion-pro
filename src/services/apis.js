@@ -1,8 +1,4 @@
-// Debug: Log environment variables
-console.log('Environment Variables:', process.env);
-console.log('REACT_APP_BASE_URL:', process.env.REACT_APP_BASE_URL);
-
-const BASE_URL = (process.env.REACT_APP_BASE_URL || 'http://localhost:5000/api/v1').replace(/\/$/, ''); // Use env as full base; fallback includes /api/v1
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 // AUTH ENDPOINTS
 export const endpoints = {
