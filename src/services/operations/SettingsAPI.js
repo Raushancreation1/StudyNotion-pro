@@ -64,7 +64,18 @@ export function updateProfile(token, formData) {
       toast.success("Profile Updated Successfully")
     } catch (error) {
       console.log("UPDATE_PROFILE_API API ERROR............", error)
-      toast.error("Could Not Update Profile")
+      if (error?.response) {
+        console.log("SERVER ERROR RESPONSE............", error.response.data)
+        if (error.response.status === 401) {
+          toast.error("Session expired or unauthorized. Please log in again.")
+          // Optionally auto-logout:
+          // dispatch(logout(() => {}))
+        } else {
+          toast.error(error.response.data?.message || "Could Not Update Profile")
+        }
+      } else {
+        toast.error("Could Not Update Profile")
+      }
     }
     toast.dismiss(toastId)
   }
