@@ -3,11 +3,10 @@ const Course = require("../models/Course")
 const crypto = require("crypto")
 const User = require("../models/User")
 const mailSender = require("../utils/mailSender")
-const { default : mongoose } = require("mongoose")
-const { courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail")
-const {v4: uuidv4} = require("uuid")
-//const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail")
-//const CourseProgress = require("../models/CourseProgress")
+const mongoose = require("mongoose")
+const { courseEnrollmentEmail } = require("../mail/templates/courseEnrollmentEmail")
+const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail")
+const CourseProgress = require("../models/CourseProgress")
 
 // Capture the payment and initiate the Razorpay order
 exports.capturePayment = async (req, res) => {
@@ -27,15 +26,14 @@ exports.capturePayment = async (req, res) => {
 
       // If the course is not found, return an error
       if (!course) {
-        return res.status(200).json({ 
-          success: false, 
-          message: "Could not find the Course" 
-        })
+        return res
+          .status(200)
+          .json({ success: false, message: "Could not find the Course" })
       }
 
       // Check if the user is already enrolled in the course
       const uid = new mongoose.Types.ObjectId(userId)
-      if (course.studentsEnroled.includes(uid)) {
+      if (course.studentsEnrolled.includes(uid)) {
         return res
           .status(200)
           .json({ success: false, message: "Student is already Enrolled" })
@@ -49,23 +47,30 @@ exports.capturePayment = async (req, res) => {
     }
   }
 
+  // Validate total amount
+  if (!Number.isFinite(total_amount) || total_amount <= 0) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid order amount" })
+  }
+
   const options = {
     amount: total_amount * 100,
     currency: "INR",
-    receipt: Math.random(Date.now()).toString(),
+    receipt: `rcpt_${Date.now()}`,
   }
 
   try {
     // Initiate the payment using Razorpay
     const paymentResponse = await instance.orders.create(options)
     console.log(paymentResponse)
-    res.json({
+    return res.json({
       success: true,
       data: paymentResponse,
     })
   } catch (error) {
     console.log(error)
-    res
+    return res
       .status(500)
       .json({ success: false, message: "Could not initiate order." })
   }
@@ -151,7 +156,7 @@ const enrollStudents = async (courses, userId, res) => {
       // Find the course and enroll the student in it
       const enrolledCourse = await Course.findOneAndUpdate(
         { _id: courseId },
-        { $push: { studentsEnroled: userId } },
+        { $push: { studentsEnrolled: userId } },
         { new: true }
       )
 

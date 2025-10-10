@@ -1,6 +1,7 @@
 const Section = require("../models/Section")
-const Course = require("../models/Course");
-const SubSection = require("../models/SubSection");
+const Course = require("../models/Course")
+const SubSection = require("../models/SubSection")
+const mongoose = require("mongoose")
 // CREATE a new section
 exports.createSection = async (req, res) => {
   try {
@@ -15,8 +16,22 @@ exports.createSection = async (req, res) => {
       })
     }
 
+    // Validate courseId format
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid courseId",
+      })
+    }
+
+    // Ensure course exists before creating section
+    const course = await Course.findById(courseId).exec()
+    if (!course) {
+      return res.status(404).json({ success: false, message: "Course not found" })
+    }
+
     // Create a new section with the given name
-    const newSection = await Section.create({ sectionName })
+    const newSection = await Section.create({ sectionName, subSection: [] })
 
     // Add the new section to the course's content array
     const updatedCourse = await Course.findByIdAndUpdate(
@@ -46,7 +61,7 @@ exports.createSection = async (req, res) => {
     // Handle errors
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: "Failed to create section",
       error: error.message,
     })
   }
@@ -128,6 +143,6 @@ exports.deleteSection = async (req, res) => {
       success: false,
       message: "Internal server error",
       error: error.message,
-    });
+    })
   }
-};
+}

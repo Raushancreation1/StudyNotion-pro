@@ -141,10 +141,18 @@ exports.createCourse = async (req, res) => {
   }
 }
 // Edit Course Details
+const mongoose = require("mongoose")
 exports.editCourse = async (req, res) => {
   try {
     const { courseId } = req.body
+
+    // Validate courseId format early to avoid CastError(500)
+    if (!courseId || !mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({ success: false, message: "Invalid courseId" })
+    }
     const updates = req.body
+    // Debug log minimal details to help diagnose
+    console.log("editCourse payload keys:", Object.keys(updates))
     const course = await Course.findById(courseId)
 
     if (!course) {
@@ -152,29 +160,75 @@ exports.editCourse = async (req, res) => {
     }
 
     // If Thumbnail Image is found, update it
-    if (req.files) {
-      console.log("thumbnail update")
-    // Get thumbnail image from request files (guard if files are absent)
-    let thumbnail = null
     if (req.files && req.files.thumbnailImage) {
-      thumbnail = req.files.thumbnailImage
-    }
-      const thumbnailImage = await uploadImageToCloudinary(
-        thumbnail,
-        process.env.FOLDER_NAME
-      )
-      course.thumbnail = thumbnailImage.secure_url
+      console.log("thumbnail update")
+      const thumbnail = req.files.thumbnailImage
+      if (thumbnail) {
+        const thumbnailImage = await uploadImageToCloudinary(
+          thumbnail,
+          process.env.FOLDER_NAME
+        )
+        course.thumbnail = thumbnailImage.secure_url
+      }
     }
 
-    // Update only the fields that are present in the request body
+    // Apply only safe, meaningful updates
+    const allowedKeys = new Set(["courseName","courseDescription","whatYouWillLearn","price","tag","category","status","instructions"])
     for (const key in updates) {
-      if (updates.hasOwnProperty(key)) {
-        if (key === "tag" || key === "instructions") {
-          course[key] = JSON.parse(updates[key])
-        } else {
-          course[key] = updates[key]
+      if (!Object.prototype.hasOwnProperty.call(updates, key)) continue
+      if (key === "courseId") continue
+      if (!allowedKeys.has(key)) continue
+
+      let val = updates[key]
+      // Skip undefined/null/empty string (don't clobber existing values)
+      if (val === undefined || val === null || (typeof val === "string" && val.trim() === "")) continue
+
+      if (key === "tag" || key === "instructions") {
+        if (typeof val === "string") {
+          try {
+            val = JSON.parse(val)
+          } catch (_) {
+            // if parsing fails, skip applying this field
+            continue
+          }
         }
+        course[key] = val
+        continue
       }
+
+      if (key === "status") {
+        const allowed = ["Draft", "Published"]
+        if (!allowed.includes(val)) {
+          return res.status(400).json({ success: false, message: "Invalid status value" })
+        }
+        course.status = val
+        continue
+      }
+
+      if (key === "price") {
+        const num = Number(val)
+        if (Number.isNaN(num) || num < 0) {
+          return res.status(400).json({ success: false, message: "Invalid price value" })
+        }
+        course.price = num
+        continue
+      }
+
+      if (key === "category") {
+        // validate category id and existence
+        if (!mongoose.Types.ObjectId.isValid(val)) {
+          return res.status(400).json({ success: false, message: "Invalid category id" })
+        }
+        const categoryDoc = await Category.findById(val)
+        if (!categoryDoc) {
+          return res.status(404).json({ success: false, message: "Category not found" })
+        }
+        course.category = categoryDoc._id
+        continue
+      }
+
+      // generic assignment for other allowed keys
+      course[key] = val
     }
 
     await course.save()
@@ -334,8 +388,10 @@ exports.getCourseDetails = async (req, res) => {
     let totalDurationInSeconds = 0
     courseDetails.courseContent.forEach((content) => {
       content.subSection.forEach((subSection) => {
-        const timeDurationInSeconds = parseInt(subSection.timeDuration)
-        totalDurationInSeconds += timeDurationInSeconds
+        const secs = Number.parseInt(subSection.timeDuration, 10)
+        if (!Number.isNaN(secs)) {
+          totalDurationInSeconds += secs
+        }
       })
     })
 
@@ -359,6 +415,15 @@ exports.getFullCourseDetails = async (req, res) => {
   try {
     const { courseId } = req.body
     const userId = req.user.id
+
+    // Validate courseId to avoid CastError and return proper client error
+    if (!courseId || !mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid courseId",
+      })
+    }
+
     const courseDetails = await Course.findOne({
       _id: courseId,
     })

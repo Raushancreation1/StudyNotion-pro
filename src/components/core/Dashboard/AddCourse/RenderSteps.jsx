@@ -1,11 +1,9 @@
 import { FaCheck } from "react-icons/fa"
 import { useSelector } from "react-redux"
-import { Fragment } from "react"
 
 import CourseBuilderForm from "./CourseBuilder/CourseBuilderForm"
 import CourseInformationForm from "./CourseInformation/CourseInformationForm"
 import PublishCourse from "./PublishCourse"
-
 
 export default function RenderSteps() {
   const { step } = useSelector((state) => state.course)
@@ -29,7 +27,7 @@ export default function RenderSteps() {
     <>
       <div className="relative mb-2 flex w-full justify-center">
         {steps.map((item) => (
-          <Fragment key={item.id}>
+          <>
             <div
               className="flex flex-col items-center "
               key={item.id}
@@ -49,22 +47,25 @@ export default function RenderSteps() {
               </button>
               
             </div>
+            
             {item.id !== steps.length && (
-              <Fragment>
+              <>
                 <div
                   className={`h-[calc(34px/2)] w-[33%]  border-dashed border-b-2 ${
                   step > item.id  ? "border-yellow-50" : "border-richblack-500"
                 } `}
                 ></div>
-              </Fragment>
+              </>
             )}
-          </Fragment>
+
+
+          </>
         ))}
       </div>
 
       <div className="relative mb-16 flex w-full select-none justify-between">
         {steps.map((item) => (
-          <Fragment key={item.id}>
+          <>
             <div
               className="flex min-w-[130px] flex-col items-center gap-y-2"
               key={item.id}
@@ -78,13 +79,14 @@ export default function RenderSteps() {
                 {item.title}
               </p>
             </div>
-          </Fragment>
+            
+          </>
         ))}
       </div>
       {/* Render specific component based on current step */}
       {step === 1 && <CourseInformationForm />}
       {step === 2 && <CourseBuilderForm />}
-      {step === 3 &&  <PublishCourse /> }
+      {step === 3 && <PublishCourse />}
     </>
   )
 }

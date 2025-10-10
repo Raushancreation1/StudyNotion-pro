@@ -145,7 +145,7 @@ export const createSection = async (data, token) => {
     result = response?.data?.updatedCourse
   } catch (error) {
     console.log("CREATE SECTION API ERROR............", error)
-    toast.error(error.message)
+    toast.error(error?.response?.data?.message || error.message)
   }
   toast.dismiss(toastId)
   return result
@@ -233,7 +233,7 @@ export const deleteSection = async (data, token) => {
     result = response?.data?.data
   } catch (error) {
     console.log("DELETE SECTION API ERROR............", error)
-    toast.error(error.message)
+    toast.error(error?.response?.data?.message || error.message)
   }
   toast.dismiss(toastId)
   return result
