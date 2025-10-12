@@ -5,14 +5,14 @@
 ### 1. Environment Variable Format Issue ✅ FIXED
 **Problem**: The `.env` file had spaces around the `=` sign in environment variables:
 ```
-RAZORPAY_KEY = rzp_test_t4LUM04KXw6wHc
-RAZORPAY_SECRET = DOdtprjZRxQejIdj1vAzm0MY
+RAZORPAY_KEY = 
+RAZORPAY_SECRET = 
 ```
 
 **Solution**: Removed spaces around `=` signs:
 ```
-RAZORPAY_KEY=rzp_test_t4LUM04KXw6wHc
-RAZORPAY_SECRET=DOdtprjZRxQejIdj1vAzm0MY
+RAZORPAY_KEY=
+RAZORPAY_SECRET=
 ```
 
 ### 2. Frontend Environment Variables ✅ FIXED
@@ -24,7 +24,7 @@ REACT_APP_BASE_URL=http://localhost:5000/api/v1%
 **Solution**: Fixed the format and added Razorpay key:
 ```
 REACT_APP_BASE_URL=http://localhost:5000/api/v1
-REACT_APP_RAZORPAY_KEY=rzp_test_t4LUM04KXw6wHc
+REACT_APP_RAZORPAY_KEY=
 ```
 
 ### 3. Razorpay Authentication Error ⚠️ NEEDS NEW KEYS
