@@ -19,12 +19,12 @@ const userSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: true
+            required: true,
         },
         accountType: {
             type: String,
             enum: ["Admin", "Student", "Instructor"],
-            required: true
+            required: true,
         },
         active: {
             type: Boolean,
@@ -36,23 +36,23 @@ const userSchema = new mongoose.Schema(
         },
         additionalDetails: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Profile"
+            ref: "Profile",
         },
         courses: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Course"
+                ref: "Course",
             }
         ],
         image: {
             type: String,
-            required: true
+            required: true,
         },
         token: {
-            type: String
+            type: String,
         },
         resetPasswordToken: {
-            type: String
+            type: String,
         },
         resetPasswordExpires: {
             type: String
@@ -60,7 +60,7 @@ const userSchema = new mongoose.Schema(
         courseProgress: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "CourseProgress"
+                ref: "CourseProgress",
             }
         ]
     },

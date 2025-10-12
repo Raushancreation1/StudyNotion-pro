@@ -4,7 +4,9 @@ const crypto = require("crypto")
 const User = require("../models/User")
 const mailSender = require("../utils/mailSender")
 const mongoose = require("mongoose")
-const { courseEnrollmentEmail } = require("../mail/templates/courseEnrollmentEmail")
+const {
+  courseEnrollmentEmail,
+} = require("../mail/templates/courseEnrollmentEmail")
 const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail")
 const CourseProgress = require("../models/CourseProgress")
 
@@ -47,32 +49,59 @@ exports.capturePayment = async (req, res) => {
     }
   }
 
-  // Validate total amount
-  if (!Number.isFinite(total_amount) || total_amount <= 0) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Invalid order amount" })
-  }
-
   const options = {
     amount: total_amount * 100,
     currency: "INR",
-    receipt: `rcpt_${Date.now()}`,
+    receipt: Math.random(Date.now()).toString(),
   }
 
   try {
+    console.log("Creating Razorpay order with options:", options);
+    console.log("Razorpay instance config:", {
+      key_id: instance.key_id,
+      key_secret: instance.key_secret ? "***" + instance.key_secret.slice(-4) : "undefined"
+    });
+    
     // Initiate the payment using Razorpay
     const paymentResponse = await instance.orders.create(options)
-    console.log(paymentResponse)
-    return res.json({
+    console.log("Order created successfully:", paymentResponse)
+    res.json({
       success: true,
       data: paymentResponse,
     })
   } catch (error) {
-    console.log(error)
-    return res
-      .status(500)
-      .json({ success: false, message: "Could not initiate order." })
+    // Log and expose non-sensitive error details from Razorpay SDK for debugging
+    console.error("Razorpay order creation failed:", {
+      name: error?.name,
+      statusCode: error?.statusCode,
+      message: error?.message,
+      description: error?.error?.description,
+      field: error?.error?.field,
+      code: error?.error?.code,
+    });
+    
+    // Check if it's an authentication error
+    if (error?.statusCode === 401) {
+      return res.status(500).json({
+        success: false,
+        message: "Payment gateway authentication failed. Please check Razorpay configuration.",
+        error: {
+          message: "Authentication failed",
+          description: "Invalid or expired Razorpay API keys",
+          code: "AUTH_FAILED",
+        },
+      })
+    }
+    
+    res.status(500).json({
+      success: false,
+      message: "Could not initiate order.",
+      error: {
+        message: error?.message,
+        description: error?.error?.description,
+        code: error?.error?.code,
+      },
+    })
   }
 }
 
