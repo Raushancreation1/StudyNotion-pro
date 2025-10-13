@@ -50,7 +50,7 @@ const Footer = () => {
                 <FaFacebook />
                 <FaGoogle />
                 <FaTwitter />
-                <FaYoutube />
+                <FaYoutube  />
               </div>
               <div></div>
             </div>
@@ -172,7 +172,7 @@ const Footer = () => {
             })}
           </div>
 
-          <div className="text-center">Made with ❤️ Raushan Craetion © 2025 Studynotion</div>
+          <div className="text-center">Made with ❤️ Raushan Craetion © 2025 Rc coding all in one</div>
         </div>
       </div>
     </div>
