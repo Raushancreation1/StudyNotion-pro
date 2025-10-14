@@ -1,13 +1,19 @@
 export default function GetAvgRating(ratingArr) {
-  if (ratingArr?.length === 0) return 0
-  const totalReviewCount = ratingArr?.reduce((acc, curr) => {
-    acc += curr.rating
-    return acc
+  // Guard: handle undefined/null/non-array or empty arrays
+  if (!Array.isArray(ratingArr) || ratingArr.length === 0) return 0
+
+  // Sum numeric ratings only; coerce safely
+  const totalReviewCount = ratingArr.reduce((acc, curr) => {
+    const val = Number(curr?.rating)
+    return acc + (Number.isFinite(val) ? val : 0)
   }, 0)
 
-  const multiplier = Math.pow(10, 1)
-  const avgReviewCount =
-    Math.round((totalReviewCount / ratingArr?.length) * multiplier) / multiplier
+  const count = ratingArr.length
+  if (count === 0) return 0
 
-  return avgReviewCount
+  // Round to 1 decimal place, always return a finite number
+  const avg = totalReviewCount / count
+  if (!Number.isFinite(avg)) return 0
+
+  return Number(avg.toFixed(1))
 }
