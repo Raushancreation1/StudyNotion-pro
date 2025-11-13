@@ -1,19 +1,17 @@
-import React from "react"
-// Icons Import
-import { FaArrowRight } from "react-icons/fa"
-import { Link } from "react-router-dom"
-import HighlightText from "../components/core/HomePage/HighlightText"
-// Image and Video Import
-import Banner from "../assets/Images/banner.mp4"
-// Component Imports
-import Footer from "../components/common/Footer"
-// import ReviewSlider from "../components/common/ReviewSlider"
-import CTAButton from "../components/core/HomePage/Button"
-import CodeBlocks from "../components/core/HomePage/CodeBlocks"
-import ExploreMore from "../components/core/HomePage/ExploreMore"
-import InstructorSection from "../components/core/HomePage/InstructorSection"
-import LearningLanguageSection from '../components/core/HomePage/LearningLanguageSection'
+import React from 'react'
+import { FaArrowRight } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+import HighlightText from '../components/core/HomePage/HighlightText';
+import CTAButton from '../components/core/HomePage/Button'
+import banner from '../assets/Images/banner.mp4'
+import CodeBlocks from '../components/core/HomePage/CodeBlocks';
+import LearningLanguageSection from "../components/core/HomePage/LearningLanguageSection"
 import TimelineSection from "../components/core/HomePage/TimelineSection"
+import InstructorSection from '../components/core/HomePage/InstructorSection';
+import Footer from '../components/common/Footer';
+import ExploreMore from '../components/core/HomePage/ExploreMore';
+import ReviewSlider from '../components/common/ReviewSlider';
+
 
 const Home = () => {
   return (
@@ -62,7 +60,7 @@ const Home = () => {
             loop
             autoPlay
           >
-            <source src={Banner} type="video/mp4" />
+            <source src={banner} type="video/mp4" />
           </video>
         </div>
 
@@ -181,12 +179,13 @@ const Home = () => {
       <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
         {/* Become a instructor section */}
         <InstructorSection />
+        
 
         {/* Reviws from Other Learner */}
         <h1 className="text-center text-4xl font-semibold mt-8">
           Reviews from other learners
         </h1>
-        {/* <ReviewSlider /> */}
+        <ReviewSlider />
       </div>
 
       {/* Footer */}

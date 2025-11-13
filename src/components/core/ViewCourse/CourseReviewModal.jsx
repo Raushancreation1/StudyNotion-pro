@@ -71,7 +71,7 @@ const CourseReviewModal = ({ setReviewModal }) => {
             </div>
           </div>
 
-          <from
+          <form
             onSubmit={handleSubmit(onSubmit)}
             className="mt-6 flex flex-col items-center"
           >
@@ -83,10 +83,10 @@ const CourseReviewModal = ({ setReviewModal }) => {
             />
 
             <div>
-              <lablel className="text-sm text-richblack-5"
+              <label className="text-sm text-richblack-5"
                 htmlFor="courseExperience">
                 Add Your Experience<sup className="text-pink-200">*</sup>
-              </lablel>
+              </label>
 
               <textarea
                 id='courseExperience'
@@ -114,7 +114,7 @@ const CourseReviewModal = ({ setReviewModal }) => {
               <IconBtn text="Save" />
             </div>
 
-          </from>
+          </form>
 
         </div>
       </div>
