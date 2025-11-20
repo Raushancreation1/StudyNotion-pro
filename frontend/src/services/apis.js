@@ -1,4 +1,7 @@
-const BASE_URL = process.env.REACT_APP_BASE_URL 
+const RAW_BASE_URL = process.env.REACT_APP_BASE_URL || ""
+const BASE_URL = RAW_BASE_URL.endsWith("/api/v1")
+  ? RAW_BASE_URL
+  : `${RAW_BASE_URL.replace(/\/$/, "")}/api/v1`
 
 // AUTH ENDPOINTS
 export const endpoints = {
