@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 
+import { toast } from "react-hot-toast"
 import ConfirmationModal from "../components/common/ConfirmationModal"
 import Footer from "../components/common/Footer"
 import RatingStars from "../components/common/RatingStars"
@@ -103,6 +104,10 @@ function CourseDetails() {
 
   const handleBuyCourse = () => {
     if (token) {
+      if (user?.accountType !== "Student") {
+        toast.error("Only students can purchase courses")
+        return
+      }
       buyCourse(token, [courseId], user, navigate, dispatch)
       return
     }

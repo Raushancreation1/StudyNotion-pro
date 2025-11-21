@@ -6,7 +6,7 @@ import { setPaymentLoading } from "../../slices/courseSlice";
 import { resetCart } from "../../slices/cartSlice";
 
 
-const {COURSE_PAYMENT_API, COURSE_VERIFY_API, SEND_PAYMENT_SUCCESS_EMAIL_API} = studentEndpoints;
+const {COURSE_PAYMENT_API, COURSE_VERIFY_API, SEND_PAYMENT_SUCCESS_EMAIL_API, RAZORPAY_KEY_API} = studentEndpoints;
 
 function loadScript(src) {
     return new Promise((resolve) => {
@@ -46,10 +46,18 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
             throw new Error(orderResponse.data.message);
         }
         console.log("PRINTING orderResponse", orderResponse);
-        // Ensure Razorpay key is available
-        const rzpKey = process.env.REACT_APP_RAZORPAY_KEY;
+        // Ensure Razorpay key is available (prefer env, fallback to backend)
+        let rzpKey = process.env.REACT_APP_RAZORPAY_KEY;
         if (!rzpKey) {
-            toast.error("Payment configuration missing (RAZORPAY key)");
+            try {
+                const keyRes = await apiConnector("GET", RAZORPAY_KEY_API);
+                rzpKey = keyRes?.data?.key;
+            } catch (e) {
+                // ignore
+            }
+        }
+        if (!rzpKey) {
+            toast.error("Payment configuration missing (Razorpay key)");
             toast.dismiss(toastId);
             return;
         }
@@ -83,9 +91,13 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         })
 
     }
-    catch(error) {
-        console.log("PAYMENT API ERROR.....", error);
-        toast.error("Could not make Payment");
+    catch (error) {
+        console.log("PAYMENT API ERROR.....", {
+            status: error?.response?.status,
+            data: error?.response?.data,
+            headers: error?.response?.headers,
+        });
+        toast.error(error?.response?.data?.message || "Could not make Payment");
     }
     toast.dismiss(toastId);
 }
