@@ -81,6 +81,28 @@ app.use(cors(corsOptions));
 
 // Handle preflight requests explicitly
 app.options("*", cors(corsOptions));
+
+// Ensure ACAO reflects the actual Origin when allowed (override any prior headers)
+app.use((req, res, next) => {
+  const originHeader = req.headers.origin;
+  if (originHeader) {
+    const normalized = normalizeOrigin(originHeader);
+    if (allowedOrigins.includes(normalized)) {
+      res.removeHeader("Access-Control-Allow-Origin");
+      res.header("Access-Control-Allow-Origin", originHeader);
+      res.header("Access-Control-Allow-Credentials", "true");
+      res.header("Vary", "Origin");
+      // Helpful defaults for some clients/proxies
+      res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
+      );
+    }
+  }
+  next();
+});
+
 app.use(
 	fileUpload({
 		useTempFiles: true,
