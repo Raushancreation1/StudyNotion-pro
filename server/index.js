@@ -28,19 +28,21 @@ database.connect();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+const normalizeOrigin = (o) => (o || "").trim().replace(/\/$/, "");
 const allowedOrigins = (
   process.env.CORS_ORIGIN
-    ? process.env.CORS_ORIGIN.split(",").map((o) => o.trim()).filter(Boolean)
+    ? process.env.CORS_ORIGIN.split(",").map(normalizeOrigin).filter(Boolean)
     : [
         "http://localhost:3000",
         "https://rccodingallinone.vercel.app",
         "https://rccodingallinone1.onrender.com",
       ]
-);
+).map(normalizeOrigin);
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
+    const normalized = normalizeOrigin(origin);
+    if (allowedOrigins.includes(normalized)) return callback(null, true);
     return callback(new Error("Not allowed by CORS"));
   },
   credentials: true,
