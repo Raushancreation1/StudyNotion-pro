@@ -28,23 +28,28 @@ database.connect();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = (process.env.CORS_ORIGIN
-  ? process.env.CORS_ORIGIN.split(",")
-  : [
-      "http://localhost:3000",
-      "https://rccodingallinone1.onrender.com",
-    ]
+const allowedOrigins = (
+  process.env.CORS_ORIGIN
+    ? process.env.CORS_ORIGIN.split(",").map((o) => o.trim()).filter(Boolean)
+    : [
+        "http://localhost:3000",
+        "https://rccodingallinone.vercel.app",
+        "https://rccodingallinone1.onrender.com",
+      ]
 );
-app.use(
-	cors({
-		origin: function (origin, callback) {
-			if (!origin) return callback(null, true);
-			if (allowedOrigins.includes(origin)) return callback(null, true);
-			return callback(new Error("Not allowed by CORS"));
-		},
-		credentials: true,
-	})
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(
 	fileUpload({
 		useTempFiles: true,

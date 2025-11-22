@@ -182,9 +182,12 @@ exports.login = async (req, res) => {
         console.error("Error sending login alert:", err?.message || err)
       }
       // Set cookie for token and return success response
+      const isProd = process.env.NODE_ENV === "production"
       const options = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
         httpOnly: true,
+        secure: isProd,
+        sameSite: isProd ? "None" : "Lax",
       }
       res.cookie("token", token, options).status(200).json({
         success: true,
