@@ -8,20 +8,20 @@ const InstructorSection = () => {
   return (
     <div>
         <div className="flex flex-col lg:flex-row gap-20 items-center">
-          <div className="lg:w-[50%]">
+          <div className="lg:w-[50%] w-full flex justify-center">
             <img
               src={Instructor}
               alt=""
-              className="shadow-white shadow-[-20px_-20px_0_0]"
+              className="w-full max-w-md lg:max-w-none shadow-white shadow-[-20px_-20px_0_0]"
             />
           </div>
           <div className="lg:w-[50%] flex gap-10 flex-col">
-            <h1 className="lg:w-[50%] text-4xl font-semibold ">
+            <h1 className="lg:w-[50%] text-3xl sm:text-4xl lg:text-5xl font-semibold ">
               Become an
               <HighlightText text={"instructor"} />
             </h1>
 
-            <p className="font-medium text-[16px] text-justify w-[90%] text-richblack-300">
+            <p className="font-medium text-sm sm:text-base text-justify w-[90%] text-richblack-300">
               Instructors from around the world teach millions of students on
               StudyNotion. We provide the tools and skills to teach what you
               love.

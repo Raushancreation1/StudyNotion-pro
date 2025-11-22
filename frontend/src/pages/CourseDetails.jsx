@@ -5,7 +5,6 @@ import ReactMarkdown from "react-markdown"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 
-import { toast } from "react-hot-toast"
 import ConfirmationModal from "../components/common/ConfirmationModal"
 import Footer from "../components/common/Footer"
 import RatingStars from "../components/common/RatingStars"
@@ -98,16 +97,12 @@ function CourseDetails() {
     courseContent,
     ratingAndReviews,
     instructor,
-    studentsEnroled,
+    studentsEnrolled,
     createdAt,
   } = response.data?.courseDetails
 
   const handleBuyCourse = () => {
     if (token) {
-      if (user?.accountType !== "Student") {
-        toast.error("Only students can purchase courses")
-        return
-      }
       buyCourse(token, [courseId], user, navigate, dispatch)
       return
     }
@@ -157,7 +152,7 @@ function CourseDetails() {
                 <span className="text-yellow-25">{avgReviewCount}</span>
                 <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
                 <span>{`(${(ratingAndReviews?.length ?? 0)} reviews)`}</span>
-                <span>{`${(studentsEnroled?.length ?? 0)} students enrolled`}</span>
+                <span>{`${(studentsEnrolled?.length ?? 0)} students enrolled`}</span>
               </div>
               <div>
                 <p className="">

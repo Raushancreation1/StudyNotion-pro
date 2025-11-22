@@ -1,7 +1,6 @@
-const RAW_BASE_URL = process.env.REACT_APP_BASE_URL || ""
-const BASE_URL = RAW_BASE_URL.endsWith("/api/v1")
-  ? RAW_BASE_URL
-  : `${RAW_BASE_URL.replace(/\/$/, "")}/api/v1`
+const RAW_BASE = process.env.REACT_APP_BASE_URL || "http://localhost:5000"
+const NORMALIZED_BASE = RAW_BASE.replace(/\/$/, "")
+const BASE_URL = NORMALIZED_BASE.endsWith("/api/v1") ? NORMALIZED_BASE : `${NORMALIZED_BASE}/api/v1`
 
 // AUTH ENDPOINTS
 export const endpoints = {
@@ -24,7 +23,6 @@ export const studentEndpoints = {
   COURSE_PAYMENT_API: BASE_URL + "/payment/capturePayment",
   COURSE_VERIFY_API: BASE_URL + "/payment/verifyPayment",
   SEND_PAYMENT_SUCCESS_EMAIL_API: BASE_URL + "/payment/sendPaymentSuccessEmail",
-  RAZORPAY_KEY_API: BASE_URL + "/payment/key",
 }
 
 // COURSE ENDPOINTS

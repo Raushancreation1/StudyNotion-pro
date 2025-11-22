@@ -24,6 +24,9 @@ function CourseSlider({ Courses }) {
           loop={true}
           modules={[FreeMode, Pagination]}
           breakpoints={{
+            640: {
+              slidesPerView: 2,
+            },
             1024: {
               slidesPerView: 3,
             },

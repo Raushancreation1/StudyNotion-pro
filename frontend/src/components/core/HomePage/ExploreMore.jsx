@@ -29,10 +29,10 @@ const ExploreMore = () => {
     <div>
       {/* Explore more section */}
       <div>
-        <div className="text-4xl font-semibold text-center my-10">
+        <div className="text-center my-10 text-3xl sm:text-4xl lg:text-5xl font-semibold">
           Unlock the
           <HighlightText text={"Power of Code"} />
-          <p className="text-center text-richblack-300 text-lg font-semibold mt-1">
+          <p className="text-center text-richblack-300 text-sm sm:text-base md:text-lg font-semibold mt-1">
             Learn to Build Anything You Can Imagine
           </p>
         </div>

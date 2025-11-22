@@ -5,6 +5,9 @@ const jwt = require("jsonwebtoken")
 const otpGenerator = require("otp-generator")
 const mailSender = require("../utils/mailSender")
 const { passwordUpdated } = require("../mail/templates/passwordUpdate")
+const otpTemplate = require("../mail/templates/emailVerificationTemplate")
+const { welcomeEmail } = require("../mail/templates/welcomeEmail")
+const { loginAlertEmail } = require("../mail/templates/loginAlert")
 const Profile = require("../models/Profile")
 require("dotenv").config()
 
@@ -98,6 +101,17 @@ exports.signup = async (req, res) => {
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName}${lastName}`,
     })
 
+    // Fire and forget welcome email (do not block signup on email failure)
+    try {
+      await mailSender(
+        email,
+        "Welcome to StudyNotion",
+        welcomeEmail(`${firstName} ${lastName}`)
+      )
+    } catch (err) {
+      console.error("Error sending welcome email:", err?.message || err)
+    }
+
     return res.status(200).json({
       success: true,
       user,
@@ -152,6 +166,21 @@ exports.login = async (req, res) => {
       // Save token to user document in database
       user.token = token
       user.password = undefined
+      // Optionally send login alert email (controlled by env flag)
+      try {
+        if (process.env.SEND_LOGIN_ALERTS === "true") {
+          const ip = (req.headers["x-forwarded-for"] || "").split(",")[0].trim() || req.ip
+          const userAgent = req.get("user-agent")
+          const timeString = new Date().toISOString()
+          await mailSender(
+            user.email,
+            "New Login to Your Account",
+            loginAlertEmail(`${user.firstName} ${user.lastName}`, ip, userAgent, timeString)
+          )
+        }
+      } catch (err) {
+        console.error("Error sending login alert:", err?.message || err)
+      }
       // Set cookie for token and return success response
       const options = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
@@ -222,10 +251,23 @@ exports.sendotp = async (req, res) => {
     const otpPayload = { email, otp }
     const otpBody = await OTP.create(otpPayload)
     console.log("OTP Body", otpBody)
+    // Send OTP via Email using template
+    try {
+      const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000"
+      const verifyLink = `${FRONTEND_URL}/verify-email`
+      await mailSender(
+        email,
+        "OTP Verification Email",
+        otpTemplate(otp, verifyLink)
+      )
+    } catch (err) {
+      console.error("Error sending OTP email:", err?.message || err)
+      // Do not expose internals; still allow client to proceed (OTP saved)
+    }
+
     res.status(200).json({
       success: true,
       message: `OTP Sent Successfully`,
-      otp,
     })
   } catch (error) {
     console.log(error.message)

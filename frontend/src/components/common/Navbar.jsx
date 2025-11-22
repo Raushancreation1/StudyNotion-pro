@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai"
+import { AiOutlineMenu, AiOutlineShoppingCart, AiOutlineClose } from "react-icons/ai"
 import { BsChevronDown } from "react-icons/bs"
 import { useSelector } from "react-redux"
 import { Link, matchPath, useLocation } from "react-router-dom"
@@ -9,26 +9,7 @@ import { NavbarLinks } from "../../data/navbar-links"
 import { apiConnector } from "../../services/apiConnector"
 import { categories } from "../../services/apis"
 import { ACCOUNT_TYPE } from "../../utils/constants"
-import ProfileDropDown from "../core/Auth/ProfileDropDown"
-
-// const subLinks = [
-//   {
-//     title: "Python",
-//     link: "/catalog/python",
-//   },
-//   {
-//     title: "javascript",
-//     link: "/catalog/javascript",
-//   },
-//   {
-//     title: "web-development",
-//     link: "/catalog/web-development",
-//   },
-//   {
-//     title: "Android Development",
-//     link: "/catalog/Android Development",
-//   },
-// ];
+import ProfileDropdown from "../core/Auth/ProfileDropDown"
 
 function Navbar() {
   const { token } = useSelector((state) => state.auth)
@@ -38,6 +19,8 @@ function Navbar() {
 
   const [subLinks, setSubLinks] = useState([])
   const [loading, setLoading] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [expandCatalog, setExpandCatalog] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -54,13 +37,18 @@ function Navbar() {
 
   // console.log("sub links", subLinks)
 
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+    setExpandCatalog(false)
+  }, [location.pathname])
+
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname)
   }
 
   return (
     <div
-      className={`flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${
+      className={`relative flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${
         location.pathname !== "/" ? "bg-richblack-800" : ""
       } transition-all duration-200`}
     >
@@ -89,7 +77,7 @@ function Navbar() {
                         <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
                         {loading ? (
                           <p className="text-center">Loading...</p>
-                        ) : subLinks.length ? (
+                        ) : (subLinks && subLinks.length) ? (
                           <>
                             {subLinks
                               ?.filter(
@@ -131,8 +119,6 @@ function Navbar() {
             ))}
           </ul>
         </nav>
-
-        
         {/* Login / Signup / Dashboard */}
         <div className="hidden items-center gap-x-4 md:flex">
           {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
@@ -159,12 +145,127 @@ function Navbar() {
               </button>
             </Link>
           )}
-          {token !== null && <ProfileDropDown />}
+          {token !== null && <ProfileDropdown />}
         </div>
-        <button className="mr-4 md:hidden">
-          <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
+        <button
+          className="mr-4 md:hidden"
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+          aria-label="Toggle menu"
+       >
+          {isMobileMenuOpen ? (
+            <AiOutlineClose fontSize={24} fill="#AFB2BF" />
+          ) : (
+            <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
+          )}
         </button>
       </div>
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute left-0 top-14 z-[1000] w-full border-b border-b-richblack-700 bg-richblack-800">
+          <nav className="mx-auto w-11/12 max-w-maxContent py-4">
+            <ul className="flex flex-col gap-2 text-richblack-25">
+              {NavbarLinks.map((link, index) => (
+                <li key={index}>
+                  {link.title === "Catalog" ? (
+                    <>
+                      <button
+                        type="button"
+                        className="flex w-full items-center justify-between py-2"
+                        onClick={() => setExpandCatalog((prev) => !prev)}
+                      >
+                        <span
+                          className={`${
+                            matchRoute("/catalog/:catalogName")
+                              ? "text-yellow-25"
+                              : "text-richblack-25"
+                          }`}
+                        >
+                          {link.title}
+                        </span>
+                        <BsChevronDown
+                          className={`transition-transform ${expandCatalog ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                      {expandCatalog && (
+                        <div className="pl-4">
+                          {loading ? (
+                            <p className="py-2">Loading...</p>
+                          ) : subLinks && subLinks.length ? (
+                            <>
+                              {subLinks
+                                ?.filter((subLink) => subLink?.courses?.length > 0)
+                                ?.map((subLink, i) => (
+                                  <Link
+                                    to={`/catalog/${subLink.name
+                                      .split(" ")
+                                      .join("-")
+                                      .toLowerCase()}`}
+                                    className="block rounded-lg py-2 hover:text-yellow-25"
+                                    key={i}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                  >
+                                    {subLink.name}
+                                  </Link>
+                                ))}
+                            </>
+                          ) : (
+                            <p className="py-2">No Courses Found</p>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link to={link?.path} onClick={() => setIsMobileMenuOpen(false)}>
+                      <p
+                        className={`${
+                          matchRoute(link?.path) ? "text-yellow-25" : "text-richblack-25"
+                        } py-2`}
+                      >
+                        {link.title}
+                      </p>
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-4 flex flex-col gap-3">
+              {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
+                <Link
+                  to="/dashboard/cart"
+                  className="relative w-fit"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <div className="flex items-center gap-2 text-richblack-100">
+                    <AiOutlineShoppingCart className="text-2xl" />
+                    <span>Cart</span>
+                  </div>
+                  {totalItems > 0 && (
+                    <span className="absolute -top-2 -right-3 grid h-5 w-5 place-items-center rounded-full bg-richblack-600 text-xs font-bold text-yellow-100">
+                      {totalItems}
+                    </span>
+                  )}
+                </Link>
+              )}
+
+              {token === null && (
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                  <button className="w-full rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
+                    Log in
+                  </button>
+                </Link>
+              )}
+              {token === null && (
+                <Link to="/signup" onClick={() => setIsMobileMenuOpen(false)}>
+                  <button className="w-full rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
+                    Sign up
+                  </button>
+                </Link>
+              )}
+              {token !== null && <ProfileDropdown />}
+            </div>
+          </nav>
+        </div>
+      )}
     </div>
   )
 }

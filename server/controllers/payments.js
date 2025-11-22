@@ -14,7 +14,7 @@ const CourseProgress = require("../models/CourseProgress")
 exports.capturePayment = async (req, res) => {
   const { courses } = req.body
   const userId = req.user.id
-  if (!Array.isArray(courses) || courses.length === 0) {
+  if (courses.length === 0) {
     return res.json({ success: false, message: "Please Provide Course ID" })
   }
 
@@ -35,18 +35,14 @@ exports.capturePayment = async (req, res) => {
 
       // Check if the user is already enrolled in the course
       const uid = new mongoose.Types.ObjectId(userId)
-      if (Array.isArray(course.studentsEnrolled) && course.studentsEnrolled.some((id) => id.equals(uid))) {
+      if (course.studentsEnrolled.includes(uid)) {
         return res
           .status(200)
           .json({ success: false, message: "Student is already Enrolled" })
       }
 
       // Add the price of the course to the total amount
-      const priceNum = Number(course.price)
-      if (!Number.isFinite(priceNum) || priceNum <= 0) {
-        return res.status(400).json({ success: false, message: "Invalid course price" })
-      }
-      total_amount += priceNum
+      total_amount += course.price
     } catch (error) {
       console.log(error)
       return res.status(500).json({ success: false, message: error.message })
@@ -56,7 +52,7 @@ exports.capturePayment = async (req, res) => {
   const options = {
     amount: total_amount * 100,
     currency: "INR",
-    receipt: `rcpt_${Date.now()}`,
+    receipt: Math.random(Date.now()).toString(),
   }
 
   try {
@@ -168,7 +164,6 @@ exports.sendPaymentSuccessEmail = async (req, res) => {
         paymentId
       )
     )
-    return res.status(200).json({ success: true, message: "Payment success email sent" })
   } catch (error) {
     console.log("error in sending mail", error)
     return res

@@ -28,8 +28,5 @@ const { auth, isInstructor, isStudent, isAdmin } = require("../middlewares/auth"
 router.post("/capturePayment", auth, isStudent, capturePayment)
 router.post("/verifyPayment", auth, isStudent, verifyPayment)
 router.post("/sendPaymentSuccessEmail", auth, isStudent, sendPaymentSuccessEmail)
-router.get("/key", (req, res) => {
-  return res.status(200).json({ key: process.env.RAZORPAY_KEY })
-})
 
 module.exports = router

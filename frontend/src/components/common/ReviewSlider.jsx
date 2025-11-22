@@ -26,29 +26,39 @@ const ReviewSlider = () => {
 
     useEffect(() => {
         const fetchAllReviews = async () => {
-            const { data } = await apiConnector("GET", ratingsEndpoints.REVIEWS_DETAILS_API)
-            console.log("printing :", data)
-
-
-            if (data?.success) {
-                setReviews(data?.data);
+            try {
+                const { data } = await apiConnector("GET", ratingsEndpoints.REVIEWS_DETAILS_API)
+                console.log("printing :", data)
+                if (data?.success) {
+                    setReviews(data?.data || [])
+                } else {
+                    setReviews([])
+                }
+            } catch (error) {
+                console.error("Failed to fetch reviews:", error)
+                setReviews([])
             }
-            console.log("Printing the reviews", reviews)
         }
         fetchAllReviews();
     }, []);
 
     return (
         
-            <div className="my-[50px] h-[184px] max-w-maxContentTab lg:max-w-maxContent">
+            <div className="my-[50px] min-h-[184px] max-w-maxContentTab lg:max-w-maxContent">
                 <Swiper
-                    slidesPerView={4}
+                    slidesPerView={1}
                     spaceBetween={25}
-                    loop={reviews.length > 4}
+                    loop={reviews.length > 1}
                     freeMode={true}
                     autoplay={{
                         delay: 2500,
                         disableOnInteraction: false,
+                    }}
+                    autoHeight={true}
+                    breakpoints={{
+                        640: { slidesPerView: 2 },
+                        1024: { slidesPerView: 3 },
+                        1280: { slidesPerView: 4 },
                     }}
                     modules={[FreeMode, Pagination, Autoplay]}
                     className="w-full "

@@ -1,4 +1,4 @@
-const otpTemplate = (otp) => {
+const otpTemplate = (otp, verifyLink) => {
 	return `<!DOCTYPE html>
 	<html>
 	
@@ -15,30 +15,30 @@ const otpTemplate = (otp) => {
 				margin: 0;
 				padding: 0;
 			}
-	
+		
 			.container {
 				max-width: 600px;
 				margin: 0 auto;
 				padding: 20px;
 				text-align: center;
 			}
-	
+		
 			.logo {
 				max-width: 200px;
 				margin-bottom: 20px;
 			}
-	
+		
 			.message {
 				font-size: 18px;
 				font-weight: bold;
 				margin-bottom: 20px;
 			}
-	
+		
 			.body {
 				font-size: 16px;
 				margin-bottom: 20px;
 			}
-	
+		
 			.cta {
 				display: inline-block;
 				padding: 10px 20px;
@@ -50,13 +50,13 @@ const otpTemplate = (otp) => {
 				font-weight: bold;
 				margin-top: 20px;
 			}
-	
+		
 			.support {
 				font-size: 14px;
 				color: #999999;
 				margin-top: 20px;
 			}
-	
+		
 			.highlight {
 				font-weight: bold;
 			}
@@ -66,7 +66,7 @@ const otpTemplate = (otp) => {
 	
 	<body>
 		<div class="container">
-			<a href="https://studynotion-edtech-project.vercel.app"><img class="logo"
+			<a href="https://rccodingallinone.vercel.app/"><img class="logo"
 					src="https://i.ibb.co/7Xyj3PC/logo.png" alt="StudyNotion Logo"></a>
 			<div class="message">OTP Verification Email</div>
 			<div class="body">
@@ -74,6 +74,12 @@ const otpTemplate = (otp) => {
 				<p>Thank you for registering with StudyNotion. To complete your registration, please use the following OTP
 					(One-Time Password) to verify your account:</p>
 				<h2 class="highlight">${otp}</h2>
+				<p>Click the button below to open the verification page:</p>
+				<p>
+					<a class="cta" href="${verifyLink}" target="_blank" rel="noopener">Verify Email</a>
+				</p>
+				<p>If the button doesn't work, copy and paste this link in your browser:</p>
+				<p><a href="${verifyLink}" target="_blank" rel="noopener">${verifyLink}</a></p>
 				<p>This OTP is valid for 5 minutes. If you did not request this verification, please disregard this email.
 				Once your account is verified, you will have access to our platform and its features.</p>
 			</div>

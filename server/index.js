@@ -28,16 +28,9 @@ database.connect();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = [
-	"http://localhost:3000",
-	"https://rccodingallinone.vercel.app",
-	process.env.FRONTEND_URL,
-	process.env.CORS_ORIGIN,
-].filter(Boolean);
-
 app.use(
 	cors({
-		origin: allowedOrigins,
+		origin: "http://localhost:3000",
 		credentials: true,
 	})
 );
