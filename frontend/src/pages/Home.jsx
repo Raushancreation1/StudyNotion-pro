@@ -29,13 +29,13 @@ const Home = () => {
         </Link>
 
         {/* Heading */}
-        <div className="text-center text-3xl sm:text-4xl lg:text-5xl font-semibold">
+        <div className="text-center text-4xl font-semibold">
           Empower Your Future with
           <HighlightText text={"Coding Skills"} />
         </div>
 
         {/* Sub Heading */}
-        <div className="-mt-3 w-[90%] text-center text-sm sm:text-base md:text-lg font-bold text-richblack-300">
+        <div className="-mt-3 w-[90%] text-center text-lg font-bold text-richblack-300">
           With our online coding courses, you can learn at your own pace, from
           anywhere in the world, and get access to a wealth of resources,
           including hands-on projects, quizzes, and personalized feedback from
@@ -43,7 +43,7 @@ const Home = () => {
         </div>
 
         {/* CTA Buttons */}
-        <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:gap-7">
+        <div className="mt-8 flex flex-row gap-7">
           <CTAButton active={true} linkto={"/signup"}>
             Learn More
           </CTAButton>
@@ -53,9 +53,9 @@ const Home = () => {
         </div>
 
         {/* Video */}
-        <div className="mx-3 my-7 w-full max-w-3xl shadow-[10px_-5px_50px_-5px] shadow-blue-200">
+        <div className="mx-3 my-7 shadow-[10px_-5px_50px_-5px] shadow-blue-200">
           <video
-            className="w-full rounded-md shadow-[20px_20px_rgba(255,255,255)]"
+            className="shadow-[20px_20px_rgba(255,255,255)]"
             muted
             loop
             autoPlay
@@ -133,7 +133,7 @@ const Home = () => {
           {/* Explore Full Catagory Section */}
           <div className="mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-5">
             <div className="lg:h-[150px]"></div>
-            <div className="flex flex-col items-center gap-4 text-white sm:flex-row sm:gap-7 lg:mt-8">
+            <div className="flex flex-row gap-7 text-white lg:mt-8">
               <CTAButton active={true} linkto={"/signup"}>
                 <div className="flex items-center gap-2">
                   Explore Full Catalog

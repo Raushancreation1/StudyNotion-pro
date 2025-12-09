@@ -1,6 +1,4 @@
-const RAW_BASE = process.env.REACT_APP_BASE_URL || "http://localhost:5000"
-const NORMALIZED_BASE = RAW_BASE.replace(/\/$/, "")
-const BASE_URL = NORMALIZED_BASE.endsWith("/api/v1") ? NORMALIZED_BASE : `${NORMALIZED_BASE}/api/v1`
+const BASE_URL = process.env.REACT_APP_BASE_URL 
 
 // AUTH ENDPOINTS
 export const endpoints = {

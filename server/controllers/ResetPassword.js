@@ -2,7 +2,6 @@ const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-const { resetPasswordTemplate } = require("../mail/templates/resetPasswordTemplate");
 
 exports.resetPasswordToken = async (req, res) => {
 	try {
@@ -26,16 +25,14 @@ exports.resetPasswordToken = async (req, res) => {
 		);
 		console.log("DETAILS", updatedDetails);
 
-		const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
-		const url = `${FRONTEND_URL}/update-password/${token}`;
+		const url = `http://localhost:3000/update-password/${token}`;
 
 		await mailSender(
 			email,
 			"Password Reset",
-			resetPasswordTemplate(url)
-		);
+			`Your Link for email verification is ${url}. Please click this url to reset your password.`);
 
-		return res.json({
+		 return res.json({
 			success: true,
 			message:
 				"Email Sent Successfully, Please Check Your Email to Continue Further",
@@ -67,7 +64,7 @@ exports.resetPassword = async (req, res) => {
 				message: "Token is Invalid",
 			});
 		}
-		if (userDetails.resetPasswordExpires < Date.now()) {
+		if (!(userDetails.resetPasswordExpires < Date.now())) {
 			return res.status(403).json({
 				success: false,
 				message: 'Token is Expired, Please Regenerate Your Token',
@@ -77,7 +74,7 @@ exports.resetPassword = async (req, res) => {
 
 		await User.findOneAndUpdate(
 			{ token: token },
-			{ password: hashedPassword, token: null, resetPasswordExpires: null },
+			{ password: hashedPassword },
 			{ new: true }
 		);
 		res.json({
