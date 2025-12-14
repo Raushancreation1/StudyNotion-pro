@@ -14,7 +14,7 @@ export default function MyProfile() {
       <h1 className="mb-14 text-3xl font-medium text-richblack-5">
         My Profile
       </h1>
-      <div className="flex items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6 sm:p-8 sm:px-12">
         <div className="flex items-center gap-x-4">
           <img
             src={user?.image}
@@ -33,19 +33,21 @@ export default function MyProfile() {
           onclick={() => {
             navigate("/dashboard/settings")
           }}
+          customClasses="w-full sm:w-auto justify-center"
         >
           <RiEditBoxLine />
         </IconBtn>
       </div>
       
-      <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
-        <div className="flex w-full items-center justify-between">
+      <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6 sm:p-8 sm:px-12">
+        <div className="flex w-full flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-lg font-semibold text-richblack-5">About</p>
           <IconBtn
             text="Edit"
             onclick={() => {
               navigate("/dashboard/settings")
             }}
+            customClasses="w-full sm:w-auto justify-center"
           >
             <RiEditBoxLine />
           </IconBtn>
@@ -61,8 +63,8 @@ export default function MyProfile() {
         </p>
       </div>
 
-      <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
-        <div className="flex w-full items-center justify-between">
+      <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6 sm:p-8 sm:px-12">
+        <div className="flex w-full flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-lg font-semibold text-richblack-5">
             Personal Details
           </p>
@@ -71,11 +73,12 @@ export default function MyProfile() {
             onclick={() => {
               navigate("/dashboard/settings")
             }}
+            customClasses="w-full sm:w-auto justify-center"
           >
             <RiEditBoxLine />
           </IconBtn>
         </div>
-        <div className="flex max-w-[500px] justify-between">
+        <div className="flex flex-col md:flex-row md:justify-between gap-8 max-w-[600px]">
           <div className="flex flex-col gap-y-5">
             <div>
               <p className="mb-2 text-sm text-richblack-600">First Name</p>

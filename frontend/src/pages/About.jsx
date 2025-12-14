@@ -17,21 +17,21 @@ const About = () => {
     <div>
       <section className="bg-richblack-700">
         <div className="relative mx-auto flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-center text-white">
-          <header className="mx-auto py-20 text-4xl font-semibold lg:w-[70%]">
-            Driving Innovation in Online Education for a
+          <header className="mx-auto py-10 sm:py-16 lg:py-20 text-2xl sm:text-3xl lg:text-4xl font-semibold lg:w-[70%] px-4">
+            Driving Innovation in Online Education for a{" "}
             <HighlightText text={"Brighter Future"} />
-            <p className="mx-auto mt-3 text-center text-base font-medium text-richblack-300 lg:w-[95%]">
-              Studynotion is at the forefront of driving innovation in online
+            <p className="mx-auto mt-3 text-center text-sm sm:text-base font-medium text-richblack-300 lg:w-[95%]">
+               Rc coding all in one is at the forefront of driving innovation in online
               education. We're passionate about creating a brighter future by
               offering cutting-edge courses, leveraging emerging technologies,
               and nurturing a vibrant learning community.
             </p>
           </header>
-          <div className="sm:h-[70px] lg:h-[150px]"></div>
-          <div className="absolute bottom-0 left-[50%] grid w-[100%] translate-x-[-50%] translate-y-[30%] grid-cols-3 gap-3 lg:gap-5">
-            <img src={BannerImage1} alt="" />
-            <img src={BannerImage2} alt="" />
-            <img src={BannerImage3} alt="" />
+          <div className="h-[40px] sm:h-[70px] lg:h-[150px]"></div>
+          <div className="static sm:absolute bottom-0 sm:left-[50%] grid w-[90%] sm:w-[100%] translate-x-0 sm:translate-x-[-50%] translate-y-0 sm:translate-y-[30%] grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 lg:gap-5 px-2">
+            <img src={BannerImage1} alt="" className="w-full h-auto object-cover" />
+            <img src={BannerImage2} alt="" className="w-full h-auto object-cover" />
+            <img src={BannerImage3} alt="" className="w-full h-auto object-cover" />
           </div>
         </div>
       </section>
@@ -45,12 +45,12 @@ const About = () => {
 
       <section>
         <div className="mx-auto flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-richblack-500">
-          <div className="flex flex-col items-center gap-10 lg:flex-row justify-between">
-            <div className="my-24 flex lg:w-[50%] flex-col gap-10">
-              <h1 className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#FCB045] bg-clip-text text-4xl font-semibold text-transparent lg:w-[70%] ">
+          <div className="flex flex-col items-center gap-10 lg:flex-row justify-between px-4">
+            <div className="my-12 sm:my-20 lg:my-24 flex w-full lg:w-[50%] flex-col gap-6 sm:gap-10">
+              <h1 className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#FCB045] bg-clip-text text-2xl sm:text-3xl lg:text-4xl font-semibold text-transparent lg:w-[70%]">
                 Our Founding Story
               </h1>
-              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+              <p className="text-sm sm:text-base font-medium text-richblack-300 lg:w-[95%]">
                 Our e-learning platform was born out of a shared vision and
                 passion for transforming education. It all began with a group of
                 educators, technologists, and lifelong learners who recognized
@@ -68,22 +68,22 @@ const About = () => {
               </p>
             </div>
 
-            <div>
+            <div className="w-full lg:w-auto">
               <img
                 src={FoundingStory}
                 alt=""
-                className="shadow-[0_0_20px_0] shadow-[#FC6767]"
+                className="w-full h-auto shadow-[0_0_20px_0] shadow-[#FC6767]"
               />
             </div>
           </div>
 
 
-          <div className="flex flex-col items-center lg:gap-10 lg:flex-row justify-between">
-            <div className="my-24 flex lg:w-[40%] flex-col gap-10">
-              <h1 className="bg-gradient-to-b from-[#FF512F] to-[#F09819] bg-clip-text text-4xl font-semibold text-transparent lg:w-[70%] ">
+          <div className="flex flex-col items-center lg:gap-10 lg:flex-row justify-between px-4">
+            <div className="my-12 sm:my-20 lg:my-24 flex w-full lg:w-[40%] flex-col gap-6 sm:gap-10">
+              <h1 className="bg-gradient-to-b from-[#FF512F] to-[#F09819] bg-clip-text text-2xl sm:text-3xl lg:text-4xl font-semibold text-transparent lg:w-[70%]">
                 Our Vision
               </h1>
-              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+              <p className="text-sm sm:text-base font-medium text-richblack-300 lg:w-[95%]">
                 With this vision in mind, we set out on a journey to create an
                 e-learning platform that would revolutionize the way people
                 learn. Our team of dedicated experts worked tirelessly to
@@ -92,11 +92,11 @@ const About = () => {
                 dynamic and interactive learning experience.
               </p>
             </div>
-            <div className="my-24 flex lg:w-[40%] flex-col gap-10">
-              <h1 className="bg-gradient-to-b from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text text-4xl font-semibold lg:w-[70%] ">
+            <div className="my-12 sm:my-20 lg:my-24 flex w-full lg:w-[40%] flex-col gap-6 sm:gap-10">
+              <h1 className="bg-gradient-to-b from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text text-2xl sm:text-3xl lg:text-4xl font-semibold lg:w-[70%]">
               Our Mission
               </h1>
-              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+              <p className="text-sm sm:text-base font-medium text-richblack-300 lg:w-[95%]">
               Our mission goes beyond just delivering courses online. We wanted to create a vibrant community of learners, where individuals can connect, collaborate, and learn from one another. We believe that knowledge thrives in an environment of sharing and dialogue, and we foster this spirit of collaboration through forums, live sessions, and networking opportunities.
               </p>
             </div>
@@ -113,7 +113,7 @@ const About = () => {
 
       <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
         {/* Reviws from Other Learner */}
-        <h1 className="text-center text-4xl font-semibold mt-8">
+        <h1 className="text-center text-2xl sm:text-3xl lg:text-4xl font-semibold mt-8 px-4">
           Reviews from other learners
         </h1>
         <ReviewSlider />

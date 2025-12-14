@@ -13,12 +13,12 @@ function Template({ title, description1, description2, image, formType }) {
       {loading ? (
         <div className="spinner"></div>
       ) : (
-        <div className="mx-auto flex w-11/12 max-w-maxContent flex-col-reverse justify-between gap-y-12 py-12 md:flex-row md:gap-y-0 md:gap-x-12">
-          <div className="mx-auto w-11/12 max-w-[450px] md:mx-0">
-            <h1 className="text-[1.875rem] font-semibold leading-[2.375rem] text-richblack-5">
+        <div className="mx-auto flex w-11/12 max-w-maxContent flex-col-reverse justify-between gap-y-8 sm:gap-y-12 py-8 sm:py-12 md:flex-row md:gap-y-0 md:gap-x-12 px-4">
+          <div className="mx-auto w-full max-w-[450px] md:mx-0">
+            <h1 className="text-xl sm:text-2xl lg:text-[1.875rem] font-semibold leading-tight sm:leading-[2.375rem] text-richblack-5">
               {title}
             </h1>
-            <p className="mt-4 text-[1.125rem] leading-[1.625rem]">
+            <p className="mt-3 sm:mt-4 text-sm sm:text-base lg:text-[1.125rem] leading-relaxed sm:leading-[1.625rem]">
               <span className="text-richblack-100">{description1}</span>{" "}
               <span className="font-edu-sa font-bold italic text-blue-100">
                 {description2}
@@ -26,13 +26,14 @@ function Template({ title, description1, description2, image, formType }) {
             </p>
             {formType === "signup" ? <SignupForm /> : <LoginForm />}
           </div>
-          <div className="relative mx-auto w-11/12 max-w-[450px] md:mx-0">
+          <div className="relative mx-auto w-full max-w-[450px] md:mx-0 hidden md:block">
             <img
               src={frameImg}
               alt="Pattern"
               width={558}
               height={504}
               loading="lazy"
+              className="w-full h-auto"
             />
             <img
               src={image}
@@ -40,7 +41,7 @@ function Template({ title, description1, description2, image, formType }) {
               width={558}
               height={504}
               loading="lazy"
-              className="absolute -top-4 right-4 z-10"
+              className="absolute -top-4 right-4 z-10 w-[calc(100%-2rem)] h-auto"
             />
           </div>
         </div>

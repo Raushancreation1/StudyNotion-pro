@@ -51,17 +51,17 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
   return (
     <>
       <div
-        className={`flex flex-col gap-4 rounded-md bg-richblack-700 p-4 text-richblack-5`}
+        className={`flex flex-col gap-4 rounded-md bg-richblack-700 p-3 sm:p-4 text-richblack-5`}
       >
         {/* Course Image */}
         <img
           src={ThumbnailImage}
           alt={course?.courseName}
-          className="max-h-[300px] min-h-[180px] w-[400px] overflow-hidden rounded-2xl object-cover md:max-w-full"
+          className="max-h-[300px] min-h-[180px] w-full overflow-hidden rounded-2xl object-cover"
         />
 
-        <div className="px-4">
-          <div className="space-x-3 pb-4 text-3xl font-semibold">
+        <div className="px-2 sm:px-4">
+          <div className="space-x-3 pb-4 text-2xl sm:text-3xl font-semibold">
             Rs. {CurrentPrice}
           </div>
 
@@ -92,14 +92,14 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
           </div>
 
           <div className={``}>
-            <p className={`my-2 text-xl font-semibold `}>
+            <p className={`my-2 text-lg sm:text-xl font-semibold`}>
               This Course Includes :
             </p>
-            <div className="flex flex-col gap-3 text-sm text-caribbeangreen-100">
+            <div className="flex flex-col gap-2 sm:gap-3 text-xs sm:text-sm text-caribbeangreen-100">
               {course?.instructions?.map((item, i) => {
                 return (
                   <p className={`flex gap-2`} key={i}>
-                    <BsFillCaretRightFill />
+                    <BsFillCaretRightFill className="mt-0.5 flex-shrink-0" />
                     <span>{item}</span>
                   </p>
                 )
@@ -108,7 +108,7 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
           </div>
           <div className="text-center">
             <button
-              className="mx-auto flex items-center gap-2 py-6 text-yellow-100 "
+              className="mx-auto flex items-center gap-2 py-4 sm:py-6 text-sm sm:text-base text-yellow-100"
               onClick={handleShare}
             >
               <FaShareSquare size={15} /> Share

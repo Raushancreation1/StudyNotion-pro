@@ -20,16 +20,20 @@ function RatingStars({ Review_Count, Star_Size }) {
       empty: Number.isInteger(Review_Count) ? 5 - wholeStars : 4 - wholeStars,
     })
   }, [Review_Count])
+  
+  const sizeProps = Star_Size
+    ? { size: Star_Size }
+    : { className: "text-[16px] sm:text-[18px] md:text-[20px] lg:text-[22px]" }
   return (
-    <div className="flex gap-1 text-yellow-100">
+    <div className="flex items-center gap-1 sm:gap-1.5 text-yellow-100">
       {[...new Array(starCount.full)].map((_, i) => {
-        return <TiStarFullOutline key={i} size={Star_Size || 20} />
+        return <TiStarFullOutline key={i} {...sizeProps} />
       })}
       {[...new Array(starCount.half)].map((_, i) => {
-        return <TiStarHalfOutline key={i} size={Star_Size || 20} />
+        return <TiStarHalfOutline key={i} {...sizeProps} />
       })}
       {[...new Array(starCount.empty)].map((_, i) => {
-        return <TiStarOutline key={i} size={Star_Size || 20} />
+        return <TiStarOutline key={i} {...sizeProps} />
       })}
     </div>
   )

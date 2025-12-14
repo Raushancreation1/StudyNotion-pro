@@ -62,12 +62,12 @@ export default function CoursesTable({ courses, setCourses }) {
                             : (
                                 courses?.map((course) => (
                                     <Tr key={course._id}
-                                        className="flex gap-x-10 border-b border-richblack-800 px-6 py-8">
+                                        className="flex flex-col md:flex-row gap-x-10 border-b border-richblack-800 px-6 py-6 md:py-8">
 
-                                        <Td className="flex flex-1 gap-x-4">
+                                        <Td className="flex flex-1 gap-x-4 items-start">
                                             <img
                                                 src={course?.thumbnail}
-                                                className="h-[148px] w-[220px] rounded-lg object-cover"
+                                                className="h-20 w-32 sm:h-[120px] sm:w-[180px] md:h-[148px] md:w-[220px] rounded-lg object-cover"
                                             />
 
                                             <div className="flex flex-col justify-between">

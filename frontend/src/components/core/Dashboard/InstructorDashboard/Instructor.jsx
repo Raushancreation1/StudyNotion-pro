@@ -37,7 +37,7 @@ export const Instructor = () => {
     const totalStudents = instructorData?.reduce((acc, curr) => acc + curr.totalStudentEnrolled, 0)
 
     return (
-        <div className="flex flex-col gap-2 w-[90%] text-richblack-25 mx-auto mt-6">
+        <div className="flex flex-col gap-2 w-11/12 text-richblack-25 mx-auto mt-6">
 
             <div>
                 <h1 className="text-3xl font-semibold">
@@ -53,7 +53,7 @@ export const Instructor = () => {
                             <div className="flex flex-col gap-4">
 
                                 {/* Charts and Statistics */}
-                                <div className="flex gap-4">
+                                <div className="flex flex-col lg:flex-row gap-4">
                                     {totalAmount > 0 || totalStudents > 0 ? (
                                         <InstructorChart courses={instructorData} />
                                     )
@@ -66,7 +66,7 @@ export const Instructor = () => {
                                             </div>
                                         )
                                     }
-                                    <div className="bg-richblack-800 p-5 flex flex-col gap-3 w-[22%] rounded-lg">
+                                    <div className="bg-richblack-800 p-5 flex flex-col gap-3 w-full lg:w-[22%] rounded-lg">
                                         <p className="font-extrabold ">Statistics</p>
 
                                         <div>
@@ -95,21 +95,21 @@ export const Instructor = () => {
                                         </Link>
                                     </div>
 
-                                    <div className="flex gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {
                                             courses.slice(0, 3).map((course, index) => (
-                                                <div className="flex flex-col gap-1">
+                                                <div key={index} className="flex flex-col gap-2">
                                                     <img
                                                         src={course.thumbnail}
                                                         alt="course thumbnail"
-                                                        className="w-[550px]"
+                                                        className="w-full h-auto rounded-md object-cover"
                                                     />
 
                                                     <p className="font-bold">{course.courseName}</p>
                                                     <div className="flex text-sm text-richblack-300 font-bold gap-2">
                                                         <p>{course.studentEnrolled?.length ?? 0} Students</p>
                                                         <p>|</p>
-                                                        <p>Rs{course?.price}</p>
+                                                        <p>Rs {course?.price}</p>
                                                     </div>
                                                 </div>
                                             ))

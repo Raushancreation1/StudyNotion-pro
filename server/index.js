@@ -28,11 +28,16 @@ database.connect();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+// CORS configuration - allow frontend origin(s)
+const allowedOrigins = [
+  process.env.FRONTEND_URL || "http://localhost:3000",
+  "http://127.0.0.1:3000",
+]
 app.use(
-	cors({
-		origin: "http://localhost:3000",
-		credentials: true,
-	})
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
 );
 app.use(
 	fileUpload({

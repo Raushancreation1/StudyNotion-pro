@@ -168,7 +168,7 @@ const VideoDetails = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5 text-white">
+    <div className="flex flex-col gap-4 sm:gap-5 text-white px-2 sm:px-0">
       {!videoData ? (
         <img
           src={previewSource}
@@ -189,16 +189,16 @@ const VideoDetails = () => {
             <div
               style={{
                 backgroundImage:
-                  "linear-gradient(to top, rgb(0, 0, 0), rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.1)",
+                  "linear-gradient(to top, rgb(0, 0, 0), rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.1))",
               }}
-              className="full absolute inset-0 z-[100] grid h-full place-content-center font-inter"
+              className="absolute inset-0 z-[100] grid h-full w-full place-content-center font-inter px-4"
             >
               {!completedLectures.includes(subSectionId) && (
                 <IconBtn
                   disabled={loading}
                   onclick={() => handleLectureCompletion()}
                   text={!loading ? "Mark As Completed" : "Loading..."}
-                  customClasses="text-xl max-w-max px-4 mx-auto"
+                  customClasses="text-base sm:text-lg lg:text-xl max-w-max px-4 mx-auto"
                 />
               )}
               <IconBtn
@@ -211,9 +211,9 @@ const VideoDetails = () => {
                   }
                 }}
                 text="Rewatch"
-                customClasses="text-xl max-w-max px-4 mx-auto mt-2"
+                customClasses="text-base sm:text-lg lg:text-xl max-w-max px-4 mx-auto mt-2"
               />
-              <div className="mt-10 flex min-w-[250px] justify-center gap-x-4 text-xl">
+              <div className="mt-6 sm:mt-8 flex w-full justify-center gap-3 sm:gap-4 text-base sm:text-lg lg:text-xl px-2">
                 {!isFirstVideo() && (
                   <button
                     disabled={loading}
@@ -238,8 +238,8 @@ const VideoDetails = () => {
         </Player>
       )}
 
-      <h1 className="mt-4 text-3xl font-semibold">{videoData?.title}</h1>
-      <p className="pt-2 pb-6">{videoData?.description}</p>
+      <h1 className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-semibold">{videoData?.title}</h1>
+      <p className="pt-2 pb-6 text-sm sm:text-base">{videoData?.description}</p>
     </div>
   )
 }

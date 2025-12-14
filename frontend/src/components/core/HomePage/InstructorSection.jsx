@@ -6,24 +6,24 @@ import HighlightText from './HighlightText';
 
 const InstructorSection = () => {
   return (
-    <div>
-        <div className="flex flex-col lg:flex-row gap-20 items-center">
-          <div className="lg:w-[50%]">
+    <div className="px-4">
+        <div className="flex flex-col lg:flex-row gap-10 sm:gap-20 items-center">
+          <div className="w-full lg:w-[50%]">
             <img
               src={Instructor}
               alt=""
-              className="shadow-white shadow-[-20px_-20px_0_0]"
+              className="w-full h-auto shadow-white shadow-[-10px_-10px_0_0] sm:shadow-[-20px_-20px_0_0]"
             />
           </div>
-          <div className="lg:w-[50%] flex gap-10 flex-col">
-            <h1 className="lg:w-[50%] text-4xl font-semibold ">
+          <div className="w-full lg:w-[50%] flex gap-6 sm:gap-10 flex-col">
+            <h1 className="w-full lg:w-[50%] text-2xl sm:text-3xl lg:text-4xl font-semibold">
               Become an
               <HighlightText text={"instructor"} />
             </h1>
 
-            <p className="font-medium text-[16px] text-justify w-[90%] text-richblack-300">
+            <p className="font-medium text-sm sm:text-base lg:text-[16px] text-justify w-full lg:w-[90%] text-richblack-300">
               Instructors from around the world teach millions of students on
-              StudyNotion. We provide the tools and skills to teach what you
+               Rc coding all in one. We provide the tools and skills to teach what you
               love.
             </p>
 
