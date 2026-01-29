@@ -37,10 +37,10 @@ export const Instructor = () => {
     const totalStudents = instructorData?.reduce((acc, curr) => acc + curr.totalStudentEnrolled, 0)
 
     return (
-        <div className="flex flex-col gap-2 w-[90%] text-richblack-25 mx-auto mt-6">
+        <div className="flex flex-col gap-2 w-full sm:w-[90%] text-richblack-25 mx-auto mt-6 px-4 sm:px-0">
 
             <div>
-                <h1 className="text-3xl font-semibold">
+                <h1 className="text-2xl sm:text-3xl font-semibold">
                     Hi {user?.firstName}
                 </h1>
                 <p className="text-sm font-bold text-richblack-50">Let's start something new</p>
@@ -53,7 +53,7 @@ export const Instructor = () => {
                             <div className="flex flex-col gap-4">
 
                                 {/* Charts and Statistics */}
-                                <div className="flex gap-4">
+                                <div className="flex flex-col lg:flex-row gap-4">
                                     {totalAmount > 0 || totalStudents > 0 ? (
                                         <InstructorChart courses={instructorData} />
                                     )
@@ -66,7 +66,7 @@ export const Instructor = () => {
                                             </div>
                                         )
                                     }
-                                    <div className="bg-richblack-800 p-5 flex flex-col gap-3 w-[22%] rounded-lg">
+                                    <div className="bg-richblack-800 p-5 flex flex-col gap-3 w-full lg:w-[22%] rounded-lg">
                                         <p className="font-extrabold ">Statistics</p>
 
                                         <div>
@@ -88,21 +88,21 @@ export const Instructor = () => {
 
                                 {/* 3 courses */}
                                 <div className="bg-richblack-800 p-5 flex flex-col gap-2 rounded-lg">
-                                    <div className="flex justify-between">
+                                    <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
                                         <p className="font-bold">View Courses</p>
                                         <Link to={"/dashboard/my-courses"}>
                                             <p className="text-sm text-yellow-50 font-bold">View All</p>
                                         </Link>
                                     </div>
 
-                                    <div className="flex gap-4">
+                                    <div className="flex flex-col sm:flex-row gap-4 overflow-x-auto">
                                         {
                                             courses.slice(0, 3).map((course, index) => (
-                                                <div className="flex flex-col gap-1">
+                                                <div className="flex flex-col gap-1 min-w-[200px] sm:min-w-[250px]">
                                                     <img
                                                         src={course.thumbnail}
                                                         alt="course thumbnail"
-                                                        className="w-[550px]"
+                                                        className="w-full sm:w-[250px] lg:w-[350px] rounded-lg object-cover"
                                                     />
 
                                                     <p className="font-bold">{course.courseName}</p>

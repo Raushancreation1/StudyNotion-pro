@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import ReactStars from "react-rating-stars-component"
+import { toast } from "react-hot-toast"
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react"
 
@@ -26,14 +27,21 @@ const ReviewSlider = () => {
 
     useEffect(() => {
         const fetchAllReviews = async () => {
-            const { data } = await apiConnector("GET", ratingsEndpoints.REVIEWS_DETAILS_API)
-            console.log("printing :", data)
-
-
-            if (data?.success) {
-                setReviews(data?.data);
+            try {
+                const response = await apiConnector(
+                    "GET",
+                    ratingsEndpoints.REVIEWS_DETAILS_API
+                )
+                const data = response?.data
+                if (data?.success) {
+                    setReviews(data?.data || [])
+                } else {
+                    throw new Error(data?.message || "Could not fetch reviews")
+                }
+            } catch (error) {
+                console.error("Failed to fetch reviews", error)
+                toast.error("Could not load reviews right now.")
             }
-            console.log("Printing the reviews", reviews)
         }
         fetchAllReviews();
     }, []);

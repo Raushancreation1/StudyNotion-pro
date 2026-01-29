@@ -13,18 +13,17 @@ export default function RenderCartCourses() {
       {cart.map((course, indx) => (
         <div
           key={course._id}
-          className={`flex w-full flex-wrap items-start justify-between gap-6 ${
-            indx !== cart.length - 1 && "border-b border-b-richblack-400 pb-6"
-          } ${indx !== 0 && "mt-6"} `}
+          className={`flex w-full flex-wrap items-start justify-between gap-6 ${indx !== cart.length - 1 && "border-b border-b-richblack-400 pb-6"
+            } ${indx !== 0 && "mt-6"} `}
         >
           <div className="flex flex-1 flex-col gap-4 xl:flex-row">
             <img
               src={course?.thumbnail}
               alt={course?.courseName}
-              className="h-[148px] w-[220px] rounded-lg object-cover"
+              className="h-[120px] w-full sm:h-[148px] sm:w-[220px] rounded-lg object-cover"
             />
             <div className="flex flex-col space-y-1">
-              <p className="text-lg font-medium text-richblack-5">
+              <p className="text-base sm:text-lg font-medium text-richblack-5">
                 {course?.courseName}
               </p>
               <p className="text-sm text-richblack-300">
@@ -47,17 +46,17 @@ export default function RenderCartCourses() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-end space-y-2">
+          <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-start space-y-0 sm:space-y-2 w-full xl:w-auto">
+            <p className="text-2xl sm:text-3xl font-medium text-yellow-100 sm:order-2">
+              ₹ {course?.price}
+            </p>
             <button
               onClick={() => dispatch(removeFromCart(course._id))}
-              className="flex items-center gap-x-1 rounded-md border border-richblack-600 bg-richblack-700 py-3 px-[12px] text-pink-200"
+              className="flex items-center gap-x-1 rounded-md border border-richblack-600 bg-richblack-700 py-2 sm:py-3 px-3 sm:px-[12px] text-pink-200 sm:order-1"
             >
               <RiDeleteBin6Line />
               <span>Remove</span>
             </button>
-            <p className="mb-6 text-3xl font-medium text-yellow-100">
-              ₹ {course?.price}
-            </p>
           </div>
         </div>
       ))}

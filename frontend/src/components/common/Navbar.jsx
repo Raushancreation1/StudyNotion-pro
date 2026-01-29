@@ -10,6 +10,7 @@ import { apiConnector } from "../../services/apiConnector"
 import { categories } from "../../services/apis"
 import { ACCOUNT_TYPE } from "../../utils/constants"
 import ProfileDropDown from "../core/Auth/ProfileDropDown"
+import MobileMenu from "./MobileMenu"
 
 // const subLinks = [
 //   {
@@ -38,9 +39,10 @@ function Navbar() {
 
   const [subLinks, setSubLinks] = useState([])
   const [loading, setLoading] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       setLoading(true)
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API)
@@ -60,14 +62,13 @@ function Navbar() {
 
   return (
     <div
-      className={`flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${
-        location.pathname !== "/" ? "bg-richblack-800" : ""
-      } transition-all duration-200`}
+      className={`flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${location.pathname !== "/" ? "bg-richblack-800" : ""
+        } transition-all duration-200`}
     >
       <div className="flex w-11/12 max-w-maxContent items-center justify-between">
         {/* Logo */}
         <Link to="/">
-          <img src={logo} alt="Logo" width={160} height={32} loading="lazy" />
+          <img src={logo} alt="Logo" width={160} height={32} loading="lazy" className="w-32 md:w-40" />
         </Link>
         {/* Navigation links */}
         <nav className="hidden md:block">
@@ -77,11 +78,10 @@ function Navbar() {
                 {link.title === "Catalog" ? (
                   <>
                     <div
-                      className={`group relative flex cursor-pointer items-center gap-1 ${
-                        matchRoute("/catalog/:catalogName")
-                          ? "text-yellow-25"
-                          : "text-richblack-25"
-                      }`}
+                      className={`group relative flex cursor-pointer items-center gap-1 ${matchRoute("/catalog/:catalogName")
+                        ? "text-yellow-25"
+                        : "text-richblack-25"
+                        }`}
                     >
                       <p>{link.title}</p>
                       <BsChevronDown />
@@ -117,11 +117,10 @@ function Navbar() {
                 ) : (
                   <Link to={link?.path}>
                     <p
-                      className={`${
-                        matchRoute(link?.path)
-                          ? "text-yellow-25"
-                          : "text-richblack-25"
-                      }`}
+                      className={`${matchRoute(link?.path)
+                        ? "text-yellow-25"
+                        : "text-richblack-25"
+                        }`}
                     >
                       {link.title}
                     </p>
@@ -132,7 +131,7 @@ function Navbar() {
           </ul>
         </nav>
 
-        
+
         {/* Login / Signup / Dashboard */}
         <div className="hidden items-center gap-x-4 md:flex">
           {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
@@ -161,10 +160,23 @@ function Navbar() {
           )}
           {token !== null && <ProfileDropDown />}
         </div>
-        <button className="mr-4 md:hidden">
+        {/* Mobile Menu Button */}
+        <button
+          className="mr-4 md:hidden"
+          onClick={() => setIsMobileMenuOpen(true)}
+          aria-label="Open menu"
+        >
           <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
         </button>
       </div>
+
+      {/* Mobile Menu Component */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        subLinks={subLinks}
+        loading={loading}
+      />
     </div>
   )
 }

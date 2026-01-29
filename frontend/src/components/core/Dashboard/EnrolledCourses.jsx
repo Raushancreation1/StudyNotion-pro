@@ -13,7 +13,7 @@ export default function EnrolledCourses() {
   const [enrolledCourses, setEnrolledCourses] = useState(null)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       try {
         const res = await getUserEnrolledCourses(token) // Getting all the published and the drafted courses
 
@@ -34,7 +34,7 @@ export default function EnrolledCourses() {
 
   return (
     <>
-      <div className="text-3xl text-richblack-50">Enrolled Courses</div>
+      <div className="text-2xl sm:text-3xl text-richblack-50 mb-6">Enrolled Courses</div>
       {!enrolledCourses ? (
         <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
           <div className="spinner"></div>
@@ -47,7 +47,7 @@ export default function EnrolledCourses() {
       ) : (
         <div className="my-8 text-richblack-5">
           {/* Headings */}
-          <div className="flex rounded-t-lg bg-richblack-500 ">
+          <div className="hidden sm:flex rounded-t-lg bg-richblack-500 ">
             <p className="w-[45%] px-5 py-3">Course Name</p>
             <p className="w-1/4 px-2 py-3">Duration</p>
             <p className="flex-1 px-2 py-3">Progress</p>
@@ -55,9 +55,8 @@ export default function EnrolledCourses() {
           {/* Course Names */}
           {enrolledCourses.map((course, i, arr) => (
             <div
-              className={`flex items-center border border-richblack-700 ${
-                i === arr.length - 1 ? "rounded-b-lg" : "rounded-none"
-              }`}
+              className={`flex items-center border border-richblack-700 ${i === arr.length - 1 ? "rounded-b-lg" : "rounded-none"
+                }`}
               key={i}
             >
               <div
