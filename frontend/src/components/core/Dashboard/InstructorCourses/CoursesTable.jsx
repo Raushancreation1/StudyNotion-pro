@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table"
 import { FiEdit2 } from "react-icons/fi"
 import { RiDeleteBin6Line, } from "react-icons/ri"
 import ConfirmationModal from '../../../common/ConfirmationModal'
-import { setCourse } from '../../../../slices/courseSlice'
 import { deleteCourse, fetchInstructorCourses, } from "../../../../services/operations/courseDetailsAPI"
 import { COURSE_STATUS } from "../../../../utils/constants"
 import { useNavigate } from "react-router-dom"
@@ -12,7 +11,6 @@ import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"
 
 export default function CoursesTable({ courses, setCourses }) {
 
-    const dispatch = useDispatch();
     const { token } = useSelector((state) => state.auth);
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
@@ -65,7 +63,7 @@ export default function CoursesTable({ courses, setCourses }) {
                                         className="flex gap-x-10 border-b border-richblack-800 px-6 py-8">
 
                                         <Td className="flex flex-1 gap-x-4">
-                                            <img
+                                            <img alt="Course Thumbnail"
                                                 src={course?.thumbnail}
                                                 className="h-[148px] w-[220px] rounded-lg object-cover"
                                             />

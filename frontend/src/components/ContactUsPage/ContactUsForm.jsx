@@ -15,15 +15,13 @@ const ContactUsForm = () => {
   } = useForm()
 
   const submitContactForm = async (data) => {
-    // console.log("Form Data - ", data)
     try {
       setLoading(true)
-      const res = await apiConnector(
+      await apiConnector(
         "POST",
         contactusEndpoint.CONTACT_US_API,
         data
       )
-      // console.log("Email Res - ", res)
       setLoading(false)
     } catch (error) {
       console.log("ERROR MESSAGE - ", error.message)
@@ -49,7 +47,7 @@ const ContactUsForm = () => {
       onSubmit={handleSubmit(submitContactForm)}
     >
 
-            {/* first name &  last name side by side */}
+      {/* first name &  last name side by side */}
       <div className="flex flex-col gap-5 lg:flex-row">
         <div className="flex flex-col gap-2 lg:w-[48%]">
           <label htmlFor="firstname" className="lable-style">
@@ -83,8 +81,8 @@ const ContactUsForm = () => {
           />
         </div>
       </div>
-       
-             {/* email */}
+
+      {/* email */}
       <div className="flex flex-col gap-2">
         <label htmlFor="email" className="lable-style">
           Email Address
@@ -103,8 +101,8 @@ const ContactUsForm = () => {
           </span>
         )}
       </div>
-  
-                     {/* phonenumber */}
+
+      {/* phonenumber */}
       <div className="flex flex-col gap-2">
         <label htmlFor="phonenumber" className="lable-style">
           Phone Number
@@ -154,7 +152,7 @@ const ContactUsForm = () => {
         )}
       </div>
 
-               {/* message */}
+      {/* message */}
 
       <div className="flex flex-col gap-2">
         <label htmlFor="message" className="lable-style">
@@ -180,10 +178,9 @@ const ContactUsForm = () => {
         disabled={loading}
         type="submit"
         className={`rounded-md bg-yellow-50 px-6 py-3 text-center text-[13px] font-bold text-black shadow-[2px_2px_0px_0px_rgba(255,255,255,0.18)] 
-         ${
-           !loading &&
-           "transition-all duration-200 hover:scale-95 hover:shadow-none"
-         }  disabled:bg-richblack-500 sm:text-[16px] `}
+         ${!loading &&
+          "transition-all duration-200 hover:scale-95 hover:shadow-none"
+          }  disabled:bg-richblack-500 sm:text-[16px] `}
       >
         Send Message
       </button>

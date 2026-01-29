@@ -1,6 +1,6 @@
 import "./App.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Home from "./pages/Home";
 import Navbar from "./components/common/Navbar"
 
@@ -32,9 +32,6 @@ import { Instructor } from "./components/core/Dashboard/InstructorDashboard/Inst
 
 
 function App() {
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { user } = useSelector((state) => state.profile)
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">

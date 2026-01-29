@@ -38,9 +38,10 @@ export const InstructorChart = ({ courses }) => {
     }
 
     // create options
-    const options = {
-
+    const chartOptions = {
+        maintainAspectRatio: false,
     }
+
 
     return (
         <div className="bg-richblack-800 p-5 flex flex-col gap-2 w-[80%] rounded-lg">
@@ -50,14 +51,14 @@ export const InstructorChart = ({ courses }) => {
             <div className="flex gap-2">
                 <button
                     onClick={() => setCurrChart("students")}
-                    className={`${currChart == "students" ? 
+                    className={`${currChart === "students" ?
                         "text-yellow-50  bg-richblack-700" : "text-yellow-400"} font-bold px-2 py-1 rounded-lg`}
                 >
                     Students
                 </button>
                 <button
                     onClick={() => setCurrChart("income")}
-                    className={`${currChart == "income" ? 
+                    className={`${currChart === "income" ?
                         "text-yellow-50  bg-richblack-600" : "text-yellow-400"} font-bold px-2 py-1 rounded-lg`}
                 >
                     Income
