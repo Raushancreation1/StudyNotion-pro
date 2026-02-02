@@ -1,7 +1,6 @@
 // Base API URL (fallbacks to deployed backend if env not provided)
 const BASE_URL =
-  process.env.REACT_APP_BASE_URL ||
-  "https://rccodingallinone1.onrender.com/api/v1"
+  process.env.REACT_APP_BASE_URL 
 
 // AUTH ENDPOINTS
 export const endpoints = {
