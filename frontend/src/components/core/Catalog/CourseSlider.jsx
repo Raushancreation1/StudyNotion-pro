@@ -12,7 +12,7 @@ import { FreeMode } from 'swiper/modules';
 import { Pagination } from 'swiper/modules';
 
 // import { getAllCourses } from "../../services/operations/courseDetailsAPI"
-import CourseCard from "./Course_Card"
+import CourseCard from "./CourseCard"
 
 function CourseSlider({ Courses }) {
   return (

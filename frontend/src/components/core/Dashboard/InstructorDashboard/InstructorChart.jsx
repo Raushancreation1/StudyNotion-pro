@@ -37,10 +37,6 @@ export const InstructorChart = ({ courses }) => {
         ]
     }
 
-    // create options
-    const chartOptions = {
-        maintainAspectRatio: false,
-    }
 
 
     return (

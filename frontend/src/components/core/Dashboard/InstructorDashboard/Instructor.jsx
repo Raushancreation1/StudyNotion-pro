@@ -31,7 +31,7 @@ export const Instructor = () => {
             setLoading(false)
         }
         getCourseDataWithStats()
-    }, [])
+    }, [token])
 
     const totalAmount = instructorData?.reduce((acc, curr) => acc + curr.totalAmountGenerated, 0)
     const totalStudents = instructorData?.reduce((acc, curr) => acc + curr.totalStudentEnrolled, 0)
