@@ -35,7 +35,7 @@ const allowedOrigins = (
   process.env.CORS_ORIGIN
     ? process.env.CORS_ORIGIN.split(",").map(normalizeOrigin).filter(Boolean)
     : [
-        "http://localhost:3000"
+        "https://rccodingallinone.onrender.com"
       ]
 ).map(normalizeOrigin);
 
