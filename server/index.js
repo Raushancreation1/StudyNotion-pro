@@ -36,6 +36,7 @@ const allowedOrigins = (
 		? process.env.CORS_ORIGIN.split(",").map(normalizeOrigin).filter(Boolean)
 		: [
 			"https://backend-ol9i.onrender.com",
+			"https://backend-1-n0tg.onrender.com",
 			"https://study-notion-pro-seven.vercel.app",
 			"https://study-notion-pro-beta.vercel.app",
 			"http://localhost:3000"
